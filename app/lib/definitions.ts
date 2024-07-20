@@ -6,3 +6,9 @@ export type Account = {
   telepon: string;
   role: 'admin' | 'petugas' | 'pengguna';
 };
+
+export type Facility = {
+  id: number;
+  foto: string;
+  nama: string;
+}
