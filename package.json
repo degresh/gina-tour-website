@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.4",
+    "@nextui-org/react": "^2.4.6",
     "@tailwindcss/forms": "^0.5.7",
     "@vercel/postgres": "^0.8.0",
     "clsx": "^2.1.1",
+    "framer-motion": "^11.3.8",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
