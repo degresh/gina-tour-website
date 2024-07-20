@@ -34,6 +34,7 @@ export async function getFacilities(
   try {
     const facilities = await sql<Facility>`
       SELECT * FROM fasilitas
+      WHERE  nama ILIKE ${`%${query}%`}
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
 

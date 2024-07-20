@@ -8,6 +8,11 @@ const nextConfig = {
                 port: '',
                 pathname: '/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'm4odkdecwcrfutng.public.blob.vercel-storage.com',
+                pathname: '/**'
+            }
         ],
     },
 };
