@@ -40,8 +40,8 @@ export default function Destination() {
   return (
     <div className="container mx-auto">
       <h3 className="text-2xl font-bold text-left my-8">Destinasi Populer</h3>
-      <div className="flex overflow-x-scroll pb-10 hide-scroll-bar">
-        <div className="flex flex-nowrap">
+      <div className="flex overflow-x-scroll">
+        <div className="flex flex-nowrap hide-scroll-bar">
           <div className="inline-block px-3">
             <StackedImageWithText
               src="/destinasi_masjidil_haram.jpg"
@@ -90,9 +90,9 @@ const StackedImageWithText = ({src, alt, title, description}) => {
         objectFit="cover"
         className="rounded-lg"
       />
-      <div className="absolute w-full h-full place-content-end bg-black bg-opacity-50 text-white p-4">
+      <div className="absolute w-full bottom-0 place-content-end bg-black bg-opacity-50 text-white p-4">
         <h2 className="text-2xl font-bold">{title}</h2>
-        <p className="mt-2 text-lg">{description}</p>
+        <p className="mt-2 text-lg truncate text-wrap max-h-20">{description}</p>
       </div>
     </div>
   );

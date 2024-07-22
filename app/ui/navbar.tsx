@@ -12,7 +12,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="relative flex w-full flex-wrap items-center justify-between bg-zinc-50 shadow-dark-mild light:bg-neutral-700 ">
+    <nav className="sticky top-0 z-50 flex w-full flex-wrap items-center justify-between bg-zinc-50 shadow-dark-mild light:bg-neutral-700 ">
       <div className="flex w-full flex-wrap items-center justify-between ">
         <div>
           <Link href="#">
