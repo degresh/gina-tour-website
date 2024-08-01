@@ -44,3 +44,16 @@ export async function getFacilities(
     throw new Error('Failed to fetch invoices.');
   }
 }
+
+export async function getAllFacilities(): Promise<Facility[]> {
+  try {
+    const facilities = await sql<Facility>`
+      SELECT * FROM fasilitas
+    `;
+
+    return facilities.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch invoices.');
+  }
+}

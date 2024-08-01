@@ -31,7 +31,7 @@ async function createTablePaket() {
   await client.sql`
     CREATE TABLE IF NOT EXISTS paket(
       id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-      name VARCHAR(56) NOT NULL,
+      nama VARCHAR(56) NOT NULL,
       deskripsi TEXT NOT NULL
     );
   `;

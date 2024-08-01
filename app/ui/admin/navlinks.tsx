@@ -3,7 +3,7 @@
 import {
   BuildingOffice2Icon,
   ChartBarIcon,
-  DocumentTextIcon,
+  DocumentTextIcon, IdentificationIcon, Square3Stack3DIcon,
   UserGroupIcon
 } from "@heroicons/react/24/solid";
 import clsx from "clsx";
@@ -19,9 +19,14 @@ const links = [
     icon: ChartBarIcon
   },
   {
+    name: 'Paket',
+    href: '/admin/package',
+    icon: Square3Stack3DIcon
+  },
+  {
     name: 'Pendaftaran',
     href: '/admin/registration',
-    icon: DocumentTextIcon,
+    icon: IdentificationIcon,
   },
   {
     name: 'Petugas',
