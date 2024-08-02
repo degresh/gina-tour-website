@@ -15,7 +15,7 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 flex w-full flex-wrap items-center justify-between bg-zinc-50 shadow-dark-mild light:bg-neutral-700 ">
       <div className="flex w-full flex-wrap items-center justify-between ">
         <div>
-          <Link href="#">
+          <Link href="/">
             <Image
               className="me-2"
               src="/logo gina tour.png"
@@ -55,7 +55,7 @@ const Navbar = () => {
           <ul className="list-style-none me-auto flex flex-col ps-0 lg:mt-1 lg:flex-row">
             {/* Home link */}
             <li className="my-4 ps-2 lg:my-0 lg:pe-1 lg:ps-2">
-              <Link href="#">
+              <Link href="/">
                 Dashboard
                 {/*<a className="text-black/60 transition duration-200 hover:text-black/80 hover:ease-in-out focus:text-black/80 active:text-black/80 motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2">*/}
                 {/*  */}
@@ -65,18 +65,22 @@ const Navbar = () => {
           </ul>
 
           <div className="flex items-center">
-            <button
-              type="button"
-              className="me-3 inline-block rounded px-2 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 dark:text-secondary-600 dark:hover:text-secondary-500 dark:focus:text-secondary-500 dark:active:text-secondary-500"
-            >
-              Login
-            </button>
-            <button
+            <Link href="/login" passHref>
+              <button
+                type="button"
+                className="me-3 inline-block rounded px-2 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 dark:text-secondary-600 dark:hover:text-secondary-500 dark:focus:text-secondary-500 dark:active:text-secondary-500"
+              >
+                Login
+              </button>
+            </Link>
+            <Link href="/registration">
+              <button
               type="button"
               className="me-3 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
-            >
+              >
               Daftar
             </button>
+            </Link>
           </div>
         </div>
       </div>

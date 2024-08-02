@@ -5,8 +5,6 @@ const ITEMS_PER_PAGE: number = 10;
 
 export async function createPackage(tourPackage: TourPackage): Promise<number | null> {
   try {
-    console.log("hello from create packages")
-    console.log(tourPackage);
     const query = await sql`
         INSERT INTO paket (nama, deskripsi)
         VALUES (${tourPackage.nama}, ${tourPackage.deskripsi})
@@ -130,8 +128,6 @@ export async function deletePackage(packageId: number): Promise<boolean> {
 
 function convertToTourPackageDetails(rawData: any[], facilityLimit: number = 3, limited: boolean = true): TourPackageDetail[] {
   const resultMap = new Map<number, TourPackageDetail>();
-
-  console.log(rawData);
 
   rawData.forEach(row => {
     // Ensure a TourPackageDetail object exists for this package_id
