@@ -27,8 +27,11 @@ export type TourPackageVariant = {
   harga: number;
 }
 
-export type TourPackageVariantInput = {
-  nama: string;
-  deskripsi: string;
-  harga: string;
+export type TourPackageDetail = {
+  id: number;
+  name: string;
+  description: string;
+  includedFacilities: Facility[];
+  excludedFacilities: Facility[];
+  variants: TourPackageVariant[];
 }
