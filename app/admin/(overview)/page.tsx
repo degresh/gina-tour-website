@@ -23,7 +23,7 @@ export default async function Page() {
             <div className="flex w-full items-center justify-between">
                 <h1 className="text-2xl">Dashboard</h1>
             </div>
-            <div className="flex flex-wrap mt-4 items-center justify-between gap-2">
+            <div className="grid grid-cols-4 mt-4 items-center justify-between gap-2">
                 <DashboardCard name="Hotel" value={hotelCount} icon={BuildingOfficeIcon}/>
                 <DashboardCard name="Transportasi" value={transportationCount} icon={RocketLaunchIcon}/>
                 <DashboardCard name="Fasilitas" value={facilityCount} icon={BuildingOffice2Icon}/>

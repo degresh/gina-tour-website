@@ -1,4 +1,6 @@
 import { Providers } from "@/app/providers";
+import Navbar from "@/app/ui/navbar";
+import Footer from "@/app/ui/user/footer";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
@@ -17,9 +19,17 @@ export default function RootLayout({children}: Readonly<{
     return (
         <SessionProvider>
             <html lang="en">
-            <body className={inter.className}>
+            <body className='flex flex-col'>
             <Providers>
-                {children}
+                <header className="flex-none">
+                    <Navbar />
+                </header>
+                <main className="grow">
+                    {children}
+                </main>
+                <footer className="flex-none">
+                    <Footer />
+                </footer>
             </Providers>
 
             </body>

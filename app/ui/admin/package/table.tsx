@@ -7,7 +7,6 @@ export default async function PackageTable({ query, page}: {
   page: number;
 }) {
   const packages: TourPackage[] = await getPackages(query, page);
-  console.log(packages);
 
   return(
     <div className="mt-6 flow-root">

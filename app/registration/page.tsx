@@ -4,12 +4,8 @@ import Footer from "@/app/ui/user/footer";
 
 export default function Page() {
   return (
-    <div>
-      <Navbar />
       <div className="min-h-screen mt-16">
-        <RegistrationForm />
+          <RegistrationForm/>
       </div>
-      <Footer />
-    </div>
   )
 }
