@@ -1,9 +1,12 @@
 "use client";
 
+import {  } from "@heroicons/react/24/outline";
 import {
+  BuildingOfficeIcon,
   BuildingOffice2Icon,
   ChartBarIcon,
-  DocumentTextIcon, IdentificationIcon, Square3Stack3DIcon,
+  IdentificationIcon,
+  Square3Stack3DIcon,
   UserGroupIcon
 } from "@heroicons/react/24/solid";
 import clsx from "clsx";
@@ -17,6 +20,11 @@ const links = [
     name: 'Dashboard',
     href: '/admin',
     icon: ChartBarIcon
+  },
+  {
+    name: 'Hotel',
+    href: '/admin/hotel',
+    icon: BuildingOfficeIcon
   },
   {
     name: 'Paket',

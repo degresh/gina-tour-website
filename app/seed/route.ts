@@ -3,7 +3,7 @@ import { db } from "@vercel/postgres";
 const client = await db.connect();
 
 async function createTableAkun() {
-  await client.sql`
+    await client.sql`
     CREATE TABLE IF NOT EXISTS akun(
       id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
       foto VARCHAR(255) NOT NULL,
@@ -17,7 +17,7 @@ async function createTableAkun() {
 }
 
 async function createTableFasilitas() {
-  await client.sql`
+    await client.sql`
     CREATE TABLE IF NOT EXISTS fasilitas(
       id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
       foto VARCHAR(255),
@@ -28,7 +28,7 @@ async function createTableFasilitas() {
 }
 
 async function createTablePaket() {
-  await client.sql`
+    await client.sql`
     CREATE TABLE IF NOT EXISTS paket(
       id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
       nama VARCHAR(56) NOT NULL,
@@ -38,7 +38,7 @@ async function createTablePaket() {
 }
 
 async function createTablePaketVarian() {
-  await client.sql`
+    await client.sql`
     CREATE TABLE IF NOT EXISTS paket_varian(
       id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
       id_paket INT NOT NULL,
@@ -50,7 +50,7 @@ async function createTablePaketVarian() {
 }
 
 async function createTablePaketFasilitas() {
-  await client.sql`
+    await client.sql`
     CREATE TABLE IF NOT EXISTS paket_fasilitas(
       id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
       paket_id INT NOT NULL,
@@ -61,7 +61,7 @@ async function createTablePaketFasilitas() {
 }
 
 async function createTablePendaftaran() {
-  await client.sql`
+    await client.sql`
     CREATE TABLE IF NOT EXISTS pendaftaran(
       id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
       akun_id INT NOT NULL,
@@ -78,20 +78,33 @@ async function createTablePendaftaran() {
   `;
 }
 
+async function createTableHotel() {
+    await client.sql`
+        CREATE TABLE Hotel (
+            id INT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            description TEXT,
+            imageUrl VARCHAR(255),
+            grade INT
+        );
+    `;
+}
+
 export async function GET() {
-  try {
-    await client.sql`BEGIN`;
-    await createTableAkun();
-    await createTableFasilitas();
-    await createTablePaket();
-    await createTablePaketVarian();
-    await createTablePaketFasilitas();
-    await createTablePendaftaran();
-    await client.sql`COMMIT`;
-    return Response.json({ message: 'Database seeded successfully' });
-  } catch (e) {
-    console.log(e);
-    await client.sql`ROLLBACK`;
-    return Response.json({ e }, { status: 500 })
-  }
+    try {
+        await client.sql`BEGIN`;
+        await createTableAkun();
+        await createTableFasilitas();
+        await createTablePaket();
+        await createTablePaketVarian();
+        await createTablePaketFasilitas();
+        await createTablePendaftaran();
+        await createTableHotel();
+        await client.sql`COMMIT`;
+        return Response.json({message: 'Database seeded successfully'});
+    } catch (e) {
+        console.log(e);
+        await client.sql`ROLLBACK`;
+        return Response.json({e}, {status: 500})
+    }
 }
