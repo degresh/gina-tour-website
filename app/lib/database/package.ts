@@ -68,6 +68,18 @@ export async function getPackages(
   }
 }
 
+export async function getPackageCount() {
+  try {
+    const query = await sql`
+            SELECT COUNT(*) FROM paket
+        `;
+
+    return Number(query.rows[0].count);
+  } catch (error) {
+    console.error("[TRANSPORTATION] Database Error", error);
+  }
+}
+
 export async function getPackageById(packageId: number): Promise<TourPackageDetail> {
   try {
     const packages = await sql<TourPackageDetail>`

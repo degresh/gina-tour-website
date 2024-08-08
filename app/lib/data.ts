@@ -13,7 +13,7 @@ export async function getOfficers(
     const officers = await sql<Account>`
       SELECT * FROM akun
       WHERE
-        (nama = 'petugas' OR nama = 'admin') OR
+        (role = 'petugas' OR role = 'admin') AND
         nama ILIKE ${`%${query}%`}
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;

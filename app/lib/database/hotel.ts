@@ -46,6 +46,18 @@ export async function getHotels() {
     }
 }
 
+export async function getHotelCount() {
+    try {
+        const query = await sql`
+            SELECT COUNT(*) FROM hotel
+        `;
+
+        return Number(query.rows[0].count);
+    } catch (error) {
+        console.error("[HOTEL] Database Error", error);
+    }
+}
+
 export async function getPagedHotels(keyword: string, page: number) {
     try {
         const query = await sql`

@@ -7,7 +7,7 @@ import {
   ChartBarIcon,
   IdentificationIcon,
   Square3Stack3DIcon,
-  UserGroupIcon, RocketLaunchIcon
+  UserGroupIcon, RocketLaunchIcon, ArrowUturnLeftIcon
 } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import Link from "next/link";
@@ -27,9 +27,14 @@ const links = [
     icon: BuildingOfficeIcon
   },
   {
-    name: 'Transportation',
+    name: 'Transportasi',
     href: '/admin/transportation',
     icon: RocketLaunchIcon
+  },
+  {
+    name: 'Fasilitas',
+    href: '/admin/facility',
+    icon: BuildingOffice2Icon
   },
   {
     name: 'Paket',
@@ -42,15 +47,15 @@ const links = [
     icon: IdentificationIcon,
   },
   {
+    name: 'Pengembalian Dana',
+    href: '/admin/refund',
+    icon: ArrowUturnLeftIcon,
+  },
+  {
     name: 'Petugas',
     href: '/admin/officer',
     icon: UserGroupIcon
   },
-  {
-    name: 'Fasilitas',
-    href: '/admin/facility',
-    icon: BuildingOffice2Icon
-  }
 ];
 
 export default function NavLinks() {

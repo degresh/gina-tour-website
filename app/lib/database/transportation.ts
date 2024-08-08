@@ -46,6 +46,18 @@ export async function getTransportations() {
     }
 }
 
+export async function getTransportationCount() {
+    try {
+        const query = await sql`
+            SELECT COUNT(*) FROM transportation
+        `;
+
+        return Number(query.rows[0].count);
+    } catch (error) {
+        console.error("[TRANSPORTATION] Database Error", error);
+    }
+}
+
 export async function getPagedTransportations(keyword: string, page: number) {
     try {
         const query = await sql`
