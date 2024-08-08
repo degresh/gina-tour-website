@@ -4,6 +4,7 @@ export type Account = {
   foto: string;
   email: string;
   telepon: string;
+  password: string
   role: 'admin' | 'petugas' | 'pengguna';
 };
 
@@ -11,13 +12,13 @@ export type Facility = {
   id: number;
   foto: string;
   nama: string;
-}
+};
 
 export type TourPackage = {
   id: number;
   nama: string;
   deskripsi: string;
-}
+};
 
 export type TourPackageVariant = {
   id: number;
@@ -25,7 +26,7 @@ export type TourPackageVariant = {
   nama: string;
   deskripsi: string;
   harga: number;
-}
+};
 
 export type TourPackageDetail = {
   id: number;
@@ -34,4 +35,4 @@ export type TourPackageDetail = {
   includedFacilities: Facility[];
   excludedFacilities: Facility[];
   variants: TourPackageVariant[];
-}
+};

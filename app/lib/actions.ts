@@ -4,7 +4,9 @@ import { createPackage } from "@/app/lib/database/package";
 import { createPackageFacility } from "@/app/lib/database/package-facility";
 import { createPackageVariant } from "@/app/lib/database/package-variant";
 import { TourPackage, TourPackageVariant } from "@/app/lib/definitions";
+import { signIn } from "@/auth";
 import { sql } from "@vercel/postgres";
+import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -56,4 +58,23 @@ export async function createPackageWrap(
 
   revalidatePath("/admin/package");
   redirect("/admin/package");
+}
+
+export async function authenticate(
+    prevState: string | undefined,
+    formData: FormData,
+) {
+  try {
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error;
+  }
 }
