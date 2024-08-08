@@ -4,7 +4,7 @@ import { sql } from "@vercel/postgres";
 export async function getAccountByEmail(email: string): Promise<Account | null> {
   try {
     const account = await sql<Account>`
-     SELECT * FROM akun WHERE email = '${email}' LIMIT 1;
+     SELECT * FROM akun WHERE email = ${email} LIMIT 1;
     `;
     return account.rows[0];
   } catch (error) {
