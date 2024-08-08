@@ -74,7 +74,6 @@ export default function RegistrationForm() {
           onChange={handleChange}
           className="w-full p-2 border border-gray-300 rounded mt-1"
         />
-        {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
       </div>
       <div className="mb-4">
         <label className="block text-gray-700">Phone:</label>
@@ -85,7 +84,6 @@ export default function RegistrationForm() {
           onChange={handleChange}
           className="w-full p-2 border border-gray-300 rounded mt-1"
         />
-        {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
       </div>
       <div className="mb-4">
         <label className="block text-gray-700">Name:</label>
@@ -96,7 +94,6 @@ export default function RegistrationForm() {
           onChange={handleChange}
           className="w-full p-2 border border-gray-300 rounded mt-1"
         />
-        {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
       </div>
       <div className="mb-4">
         <label className="block text-gray-700">Password:</label>
@@ -107,7 +104,6 @@ export default function RegistrationForm() {
           onChange={handleChange}
           className="w-full p-2 border border-gray-300 rounded mt-1"
         />
-        {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
       </div>
       <div className="mb-4">
         <label className="block text-gray-700">Confirm Password:</label>
@@ -118,7 +114,6 @@ export default function RegistrationForm() {
           onChange={handleChange}
           className="w-full p-2 border border-gray-300 rounded mt-1"
         />
-        {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
       </div>
       <button
         type="submit"

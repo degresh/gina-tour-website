@@ -2,10 +2,7 @@ import { getOfficers } from "@/app/lib/data";
 import { DeleteOfficer, UpdateOfficer } from "@/app/ui/buttons";
 import Image from "next/image";
 
-export default async function OfficerTable({
-                                       query,
-                                       currentPage,
-                                     }: {
+export default async function OfficerTable({ query, currentPage,}: {
   query: string;
   currentPage: number;
 }) {
@@ -64,8 +61,8 @@ export default async function OfficerTable({
                 </td>
                 <td className="whitespace-nowrap py-3 pl-6 pr-3">
                   <div className="flex justify-end gap-3">
-                    <UpdateOfficer id={officer.id}/>
-                    <DeleteOfficer id={officer.id}/>
+                    <UpdateOfficer id={Number(officer.id)}/>
+                    <DeleteOfficer id={Number(officer.id)}/>
                   </div>
                 </td>
               </tr>
