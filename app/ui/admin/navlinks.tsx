@@ -7,7 +7,7 @@ import {
   ChartBarIcon,
   IdentificationIcon,
   Square3Stack3DIcon,
-  UserGroupIcon
+  UserGroupIcon, RocketLaunchIcon
 } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import Link from "next/link";
@@ -25,6 +25,11 @@ const links = [
     name: 'Hotel',
     href: '/admin/hotel',
     icon: BuildingOfficeIcon
+  },
+  {
+    name: 'Transportation',
+    href: '/admin/transportation',
+    icon: RocketLaunchIcon
   },
   {
     name: 'Paket',
