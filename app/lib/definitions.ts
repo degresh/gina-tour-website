@@ -18,6 +18,7 @@ export type TourPackage = {
   id: number;
   nama: string;
   deskripsi: string;
+  period: string;
 };
 
 export type TourPackageVariant = {

@@ -34,7 +34,19 @@ export async function deleteTransportationById(transportationId: number) {
     }
 }
 
-export async function getTransportations(keyword: string, page: number) {
+export async function getTransportations() {
+    try {
+        const query = await sql`
+            SELECT * FROM transportation
+        `;
+
+        return query.rows.map(convertRowToTransportation);
+    } catch (error) {
+        console.error("[TRANSPORTATION] Database Error", error);
+    }
+}
+
+export async function getPagedTransportations(keyword: string, page: number) {
     try {
         const query = await sql`
             SELECT * FROM transportation 
@@ -84,13 +96,11 @@ function offset(currentPage: number): number {
 }
 
 function convertRowToTransportation(row: QueryResultRow): Transportation {
-    const transportation = new Transportation();
-
-    transportation.id = row["id"];
-    transportation.encodedId = encodeToBase64(transportation.id);
-    transportation.name = row["name"];
-    transportation.description = row["description"];
-    transportation.imageUrl = row["image_url"];
-
-    return transportation;
+    return {
+        id: row["id"],
+        encodedId: encodeToBase64(row["id"]),
+        name: row["name"],
+        description: row["description"],
+        imageUrl: row["image_url"],
+    };
 }

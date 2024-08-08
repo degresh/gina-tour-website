@@ -2,6 +2,8 @@
 
 import { createPackage } from "@/app/lib/database/package";
 import { createPackageFacility } from "@/app/lib/database/package-facility";
+import { createPackageHotel } from "@/app/lib/database/package-hotel";
+import { createPackageTransportation } from "@/app/lib/database/package-transportation";
 import { createPackageVariant } from "@/app/lib/database/package-variant";
 import { TourPackage, TourPackageVariant } from "@/app/lib/definitions";
 import { signIn } from "@/auth";
@@ -34,7 +36,9 @@ export async function createPackageWrap(
   tourPackage: TourPackage,
   variants: TourPackageVariant[],
   includedFacilitiesId: number[],
-  excludedFacilitiesId: number[]
+  excludedFacilitiesId: number[],
+  selectedHotelIds: number[],
+  selectedTransportationIds: number[]
 ) {
   const packageId = await createPackage(tourPackage);
 
@@ -54,6 +58,15 @@ export async function createPackageWrap(
         packageId, excludedId, "tidak termasuk"
       )
     });
+
+    selectedHotelIds.forEach((hotelId) => {
+      createPackageHotel(packageId, hotelId);
+    });
+
+    selectedTransportationIds.forEach((transportationId) => {
+      createPackageTransportation(packageId, transportationId);
+    });
+
   }
 
   revalidatePath("/admin/package");

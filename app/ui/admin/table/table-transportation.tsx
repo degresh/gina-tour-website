@@ -1,4 +1,4 @@
-import { getTransportations } from "@/app/lib/database/transportation";
+import { getPagedTransportations } from "@/app/lib/database/transportation";
 import ButtonIconNav from "@/app/ui/button-icon-nav";
 import { EyeIcon, PencilIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
@@ -7,7 +7,7 @@ export default async function TableTransportation({query, page}: {
     query: string;
     page: number;
 }) {
-    const transportations = await getTransportations(query, page);
+    const transportations = await getPagedTransportations(query, page);
 
     function onDeleteAction() {
 

@@ -34,7 +34,19 @@ export async function deleteHotelById(hotelId: number) {
     }
 }
 
-export async function getHotels(keyword: string, page: number) {
+export async function getHotels() {
+    try {
+        const query = await sql`
+            SELECT * FROM hotel
+        `;
+
+        return query.rows.map(convertRowToHotel);
+    } catch (error) {
+        console.error("[HOTEL] Database Error", error);
+    }
+}
+
+export async function getPagedHotels(keyword: string, page: number) {
     try {
         const query = await sql`
             SELECT * FROM hotel 
@@ -84,14 +96,12 @@ function offset(currentPage: number): number {
 }
 
 function convertRowToHotel(row: QueryResultRow): Hotel {
-    const hotel = new Hotel();
-
-    hotel.id = row["id"];
-    hotel.encodedId = encodeToBase64(hotel.id);
-    hotel.name = row["name"];
-    hotel.description = row["description"];
-    hotel.imageUrl = row["image_url"];
-    hotel.grade = row["grade"];
-
-    return hotel;
+    return {
+        id: row["id"],
+        encodedId: encodeToBase64(row["id"]),
+        name: row["name"],
+        description: row["description"],
+        imageUrl: row["image_url"],
+        grade: row["grade"],
+    };
 }

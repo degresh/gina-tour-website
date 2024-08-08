@@ -1,4 +1,4 @@
-export class Hotel {
+export type Hotel = {
     id: number;
     encodedId: string;
     name: string;

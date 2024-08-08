@@ -4,7 +4,7 @@ export default function VariantContainer({ variants }: { variants: TourPackageVa
   if (variants.length < 1) {
     return (
       <div className="w-full border border-gray-300 p-4 rounded-lg flex justify-center">
-        <p className="content-center">Belum ada variant</p>
+        <p className="content-center">Tidak ada pilihan paket yang tersedia</p>
       </div>
     )
   }

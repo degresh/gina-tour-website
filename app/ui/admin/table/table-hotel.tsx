@@ -1,4 +1,4 @@
-import { getHotels } from "@/app/lib/database/hotel";
+import { getPagedHotels } from "@/app/lib/database/hotel";
 import ButtonIconAction from "@/app/ui/button-icon-action";
 import ButtonIconNav from "@/app/ui/button-icon-nav";
 import { PencilIcon } from "@heroicons/react/24/outline";
@@ -10,7 +10,7 @@ export default async function TableHotel({ query, page }: {
     query: string;
     page: number;
 }) {
-    const hotels = await getHotels(query, page);
+    const hotels = await getPagedHotels(query, page);
 
     function onDeleteAction() {
 

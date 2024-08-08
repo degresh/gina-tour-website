@@ -81,11 +81,35 @@ async function createTablePendaftaran() {
 async function createTableHotel() {
     await client.sql`
         CREATE TABLE Hotel (
-            id INT PRIMARY KEY,
+            id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
             description TEXT,
             imageUrl VARCHAR(255),
             grade INT
+        );
+    `;
+}
+
+async function createTablePaketHotel() {
+    await client.sql`
+        CREATE TABLE paket_hotel (
+            id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+            paket_id INT,
+            hotel_id INT,
+            FOREIGN KEY (paket_id) REFERENCES paket(id),
+            FOREIGN KEY (hotel_id) REFERENCES hotel(id)
+        );
+    `;
+}
+
+async function createTablePaketTransportation() {
+    await client.sql`
+        CREATE TABLE paket_transportation (
+            id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+            paket_id INT,
+            transportation_id INT,
+            FOREIGN KEY (paket_id) REFERENCES paket(id),
+            FOREIGN KEY (transportation_id) REFERENCES transportation(id)
         );
     `;
 }

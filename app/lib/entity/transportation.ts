@@ -1,4 +1,4 @@
-export class Transportation {
+export type Transportation = {
     id: number;
     encodedId: string;
     name: string;

@@ -6,8 +6,8 @@ const ITEMS_PER_PAGE: number = 10;
 export async function createPackage(tourPackage: TourPackage): Promise<number | null> {
   try {
     const query = await sql`
-        INSERT INTO paket (nama, deskripsi)
-        VALUES (${tourPackage.nama}, ${tourPackage.deskripsi})
+        INSERT INTO paket (nama, deskripsi, period)
+        VALUES (${tourPackage.nama}, ${tourPackage.deskripsi}, ${tourPackage.period})
         RETURNING id
     `;
 
