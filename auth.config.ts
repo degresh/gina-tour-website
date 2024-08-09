@@ -1,3 +1,4 @@
+import { getAccountByEmail } from "@/app/lib/database/account";
 import { NextAuthConfig } from 'next-auth';
 
 export const authConfig = {
@@ -11,6 +12,15 @@ export const authConfig = {
 
             if (isOnDashboard) {
                 return isLoggedIn;
+            } else if (isLoggedIn) {
+                getAccountByEmail(auth.user.email)
+                    .then((account) => {
+                        if (account.role == "pengguna") {
+                            return Response.redirect(new URL("/", nextUrl));
+                        } else {
+                            return Response.redirect(new URL("/admin", nextUrl));
+                        }
+                    });
             }
 
             return true;

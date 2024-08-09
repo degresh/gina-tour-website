@@ -21,7 +21,7 @@ export default function RootLayout({children}: Readonly<{
             <html lang="en">
             <body className='flex flex-col'>
             <Providers>
-                <header className="flex-none">
+                <header className="flex-none sticky top-0 z-50 ">
                     <Navbar />
                 </header>
                 <main className="grow">

@@ -1,23 +1,21 @@
-"use client";
-
 import { PackageVariant } from "@/app/lib/entity/package-variant";
-import React, { useState } from "react";
+import React from "react";
 
-export default function PackageRegistrationVariant({packageVariants}: {
-    packageVariants: PackageVariant[]
+export default function PackageRegistrationVariant({packageVariants, selectedId, onSelect}: {
+    packageVariants: PackageVariant[];
+    selectedId: number;
+    onSelect: (variantId: number) => void
 }) {
-    const [selectedVariantId, setSelectedVariantId] = useState<number>(0);
-
     return (
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-wrap gap-4">
             {
                 packageVariants.map((variant) => {
-                    const isSelected = selectedVariantId == variant.id;
+                    const isSelected = selectedId == variant.id;
 
                     return (
                         <div
                             key={variant.id}
-                            onClick={() => setSelectedVariantId(variant.id)}
+                            onClick={() => onSelect(variant.id)}
                             className={`grow basis-1/4 border rounded-lg ${
                                 isSelected ? 'border-blue-600 bg-blue-200' : 'border-gray-300'
                             }`}>

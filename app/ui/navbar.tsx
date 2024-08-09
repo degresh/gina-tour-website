@@ -13,7 +13,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="sticky top-0 z-50 flex w-full items-center justify-between bg-zinc-50">
+        <nav className="flex w-full items-center justify-between bg-zinc-50">
             <Link href="/">
                 <Image
                     className="me-2"
