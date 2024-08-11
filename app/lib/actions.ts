@@ -83,21 +83,24 @@ export async function createRegistration(
     variants: PackageVariant[],
     selectedVariantId: number
 ) {
+
+    console.log(request);
+
     const registrationId = await createPackageRegistration(request);
     const selectedVariant = variants.find((variant) => variant.id == selectedVariantId);
 
     const paymentRequest: PaymentCreateRequest = {
         registrationId: registrationId,
         amount: selectedVariant.price,
-        status: '',
+        status: 'UNPAID',
         rejectReason: '',
-        type: '',
+        type: 'dp',
         url: ''
     };
 
     await createPayment(paymentRequest);
 
-    redirect("/admin/package");
+    redirect(`/package/registered/${registrationId}/payment`);
 }
 
 export async function authenticate(

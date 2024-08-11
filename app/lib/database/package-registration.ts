@@ -21,7 +21,8 @@ export async function createPackageRegistration(request: PackageRegistrationCrea
                 kode_pos, 
                 alamat, 
                 pekerjaan, 
-                pendidikan
+                pendidikan,
+                tanggal_pendaftaran
             ) 
             VALUES (
                 0, 
@@ -38,7 +39,7 @@ export async function createPackageRegistration(request: PackageRegistrationCrea
                 ${request.subDistrict}, 
                 ${request.district}, 
                 ${request.postalCode}, 
-                ${request.address}. 
+                ${request.address},
                 ${request.job}, 
                 ${request.education},
                 ${Date.now()}
