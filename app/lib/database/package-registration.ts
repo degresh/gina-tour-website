@@ -22,7 +22,17 @@ export async function createPackageRegistration(request: PackageRegistrationCrea
                 alamat, 
                 pekerjaan, 
                 pendidikan,
-                tanggal_pendaftaran
+                tanggal_pendaftaran,
+                status_pendaftaran,
+                sudah_pergi_umrah,
+                merokok,
+                memiliki_penyakit,
+                deskripsi_penyakit,
+                membutuhkan_kursi_roda,
+                passport_image_url,
+                visa_image_url,
+                photo_card_image_url,
+                identity_card_image_url
             ) 
             VALUES (
                 0, 
@@ -42,7 +52,17 @@ export async function createPackageRegistration(request: PackageRegistrationCrea
                 ${request.address},
                 ${request.job}, 
                 ${request.education},
-                ${Date.now()}
+                ${Date.now()},
+                'Pending',
+                ${request.alreadyGoingUmroh},
+                ${request.smoking},
+                ${request.hasDisease},
+                ${request.diseaseDescription},
+                ${request.needWheelChair},
+                ${request.passportImageUrl},
+                ${request.visaImageUrl},
+                ${request.photoCardImageUrl},
+                ${request.identityCardImageUrl}
             )
             RETURNING id
         `;

@@ -12,7 +12,7 @@ export default function FormPackageRegistration({variants}: {
     variants: PackageVariant[]
 }) {
     const [selectedVariantId, setSelectedVariantId] = useState<number>(0);
-    const [disability, setDisability] = useState<boolean>(false);
+    const [hasDisease, setHasDisease] = useState<boolean>(false);
 
     const imagePassportRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
     const imageVisaRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
@@ -44,6 +44,12 @@ export default function FormPackageRegistration({variants}: {
                     method: 'POST',
                     body: identityFile
                 });
+                
+                let diseaseDescription = '';
+                
+                if (hasDisease) {
+                    diseaseDescription = formData.get("hasDiseaseDescription").toString()
+                }
 
 
                 const request: PackageRegistrationCreateRequest = {
@@ -66,7 +72,7 @@ export default function FormPackageRegistration({variants}: {
                     alreadyGoingUmroh: formData.get("alreadyGoingUmroh").valueOf().toString(),
                     smoking: formData.get("smoking").valueOf().toString(),
                     hasDisease: formData.get("hasDisease").valueOf().toString(),
-                    diseaseDescription: formData.get("hasDiseaseDescription").valueOf().toString(),
+                    diseaseDescription: diseaseDescription,
                     needWheelChair: formData.get("needWheelChair").valueOf().toString(),
                     passportImageUrl: passportFileResponse.url,
                     visaImageUrl: visaFileResponse.url,
@@ -396,7 +402,7 @@ export default function FormPackageRegistration({variants}: {
                                 name="hasDisease"
                                 onChange={(event) => {
                                     event.preventDefault();
-                                    setDisability(event.target.value === "Ya");
+                                    setHasDisease(event.target.value === "Ya");
                                 }}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                             >
@@ -407,7 +413,7 @@ export default function FormPackageRegistration({variants}: {
                     </div>
                 </div>
 
-                {disability ? (<div className="w-full">
+                {hasDisease ? (<div className="w-full">
                     <label htmlFor="diseaseDescription" className="mb-2 block text-sm font-medium">
                         Keterangan Penyakit
                     </label>
@@ -421,7 +427,7 @@ export default function FormPackageRegistration({variants}: {
                             />
                         </div>
                     </div>
-                </div>) : <div>{disability.valueOf()}</div>
+                </div>) : <div>{hasDisease.valueOf()}</div>
                 }
 
                 <div className="w-full">

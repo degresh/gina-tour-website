@@ -81,7 +81,17 @@ async function createTablePendaftaran() {
             alamat TEXT NOT NULL,
             pekerjaan VARCHAR(56) NOT NULL,
             pendidikan VARCHAR(24) NOT NULL,
-            tanggal_pendaftaran BIGINT NOT NULL
+            tanggal_pendaftaran BIGINT NOT NULL,
+            status_pendaftaran VARCHAR(16) NOT NULL,
+            sudah_pergi_umrah VARCHAR(8) NOT NULL,
+            merokok VARCHAR(8) NOT NULL,
+            memiliki_penyakit VARCHAR(8) NOT NULL,
+            deskripsi_penyakit VARCHAR(128),
+            membutuhkan_kursi_roda VARCHAR(8) NOT NULL,
+            passport_image_url VARCHAR(128) NOT NULL,
+            visa_image_url VARCHAR(128) NOT NULL,
+            photo_card_image_url VARCHAR(128) NOT NULL,
+            identity_card_image_url VARCHAR(128) NOT NULL
         );
   `;
 }
