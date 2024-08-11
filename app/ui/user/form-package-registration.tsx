@@ -1,25 +1,51 @@
 "use client"
 
 import { createRegistration } from "@/app/lib/actions";
-import { createPackageRegistration } from "@/app/lib/database/package-registration";
-import { createPayment } from "@/app/lib/database/payment";
 import { PackageRegistrationCreateRequest } from "@/app/lib/entity/package-registration-create-request";
 import { PackageVariant } from "@/app/lib/entity/package-variant";
-import { PaymentCreateRequest } from "@/app/lib/entity/payment-create-request";
 import { Button } from "@/app/ui/button";
 import PackageRegistrationVariant from "@/app/ui/user/package-registration-variant";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 export default function FormPackageRegistration({variants}: {
     variants: PackageVariant[]
 }) {
     const [selectedVariantId, setSelectedVariantId] = useState<number>(0);
+    const [disability, setDisability] = useState<boolean>(false);
+
+    const imagePassportRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
+    const imageVisaRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
+    const imageCardRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
+    const imageIdentityRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
 
     return (
         <form
             className="w-full mt-4"
-            action={ async (formData) => {
+            action={async (formData) => {
+                const passportFile = imagePassportRef.current.files[0];
+                const visaFile = imageVisaRef.current.files[0];
+                const cardFile = imageCardRef.current.files[0];
+                const identityFile = imageIdentityRef.current.files[0];
+
+                const passportFileResponse = await fetch(`/api/upload?filename=${passportFile.name}`, {
+                    method: 'POST',
+                    body: passportFile
+                });
+                const visaFileResponse = await fetch(`/api/upload?filename=${visaFile.name}`, {
+                    method: 'POST',
+                    body: visaFile
+                });
+                const cardFileResponse = await fetch(`/api/upload?filename=${cardFile.name}`, {
+                    method: 'POST',
+                    body: cardFile
+                });
+                const identityFileResponse = await fetch(`/api/upload?filename=${identityFile.name}`, {
+                    method: 'POST',
+                    body: identityFile
+                });
+
+
                 const request: PackageRegistrationCreateRequest = {
                     packageVariantId: selectedVariantId,
                     name: formData.get("name").toString(),
@@ -37,6 +63,15 @@ export default function FormPackageRegistration({variants}: {
                     address: formData.get("address").toString(),
                     job: formData.get("job").toString(),
                     education: formData.get("education").toString(),
+                    alreadyGoingUmroh: formData.get("alreadyGoingUmroh").valueOf().toString(),
+                    smoking: formData.get("smoking").valueOf().toString(),
+                    hasDisease: formData.get("hasDisease").valueOf().toString(),
+                    diseaseDescription: formData.get("hasDiseaseDescription").valueOf().toString(),
+                    needWheelChair: formData.get("needWheelChair").valueOf().toString(),
+                    passportImageUrl: passportFileResponse.url,
+                    visaImageUrl: visaFileResponse.url,
+                    photoCardImageUrl: cardFileResponse.url,
+                    identityCardImageUrl: identityFileResponse.url,
                 };
 
                 await createRegistration(request, variants, selectedVariantId);
@@ -314,6 +349,187 @@ export default function FormPackageRegistration({variants}: {
                     <hr/>
                 </div>
 
+                <div className="w-full">
+                    <label htmlFor="alreadyGoingUmroh" className="mb-2 block text-sm font-medium">
+                        Pernah Pergi Umroh
+                    </label>
+                    <div className="relative mt-2 rounded-md">
+                        <div className="relative">
+                            <select
+                                id="alreadyGoingUmroh"
+                                name="alreadyGoingUmroh"
+                                className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
+                            >
+                                <option value="Ya">Ya</option>
+                                <option value="Tidak" selected={true}>Tidak</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="w-full">
+                    <label htmlFor="smoking" className="mb-2 block text-sm font-medium">
+                        Merokok
+                    </label>
+                    <div className="relative mt-2 rounded-md">
+                        <div className="relative">
+                            <select
+                                id="smoking"
+                                name="smoking"
+                                className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
+                            >
+                                <option value="Ya">Ya</option>
+                                <option value="Tidak" selected={true}>Tidak</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="w-full">
+                    <label htmlFor="hasDisease" className="mb-2 block text-sm font-medium">
+                        Memiliki Penyakit
+                    </label>
+                    <div className="relative mt-2 rounded-md">
+                        <div className="relative">
+                            <select
+                                id="hasDisease"
+                                name="hasDisease"
+                                onChange={(event) => {
+                                    event.preventDefault();
+                                    setDisability(event.target.value === "Ya");
+                                }}
+                                className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
+                            >
+                                <option value="Ya">Ya</option>
+                                <option value="Tidak" selected={true}>Tidak</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                {disability ? (<div className="w-full">
+                    <label htmlFor="diseaseDescription" className="mb-2 block text-sm font-medium">
+                        Keterangan Penyakit
+                    </label>
+                    <div className="relative mt-2 rounded-md">
+                        <div className="relative">
+                            <input
+                                id="diseaseDescription"
+                                name="diseaseDescription"
+                                type="text"
+                                className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
+                            />
+                        </div>
+                    </div>
+                </div>) : <div>{disability.valueOf()}</div>
+                }
+
+                <div className="w-full">
+                    <label htmlFor="needWheelChair" className="mb-2 block text-sm font-medium">
+                        Kebutuhan Kursi Roda
+                    </label>
+                    <div className="relative mt-2 rounded-md">
+                        <div className="relative">
+                            <select
+                                id="needWheelChair"
+                                name="needWheelChair"
+                                className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
+                            >
+                                <option value="Ya">Ya</option>
+                                <option value="Tidak" selected={true}>Tidak</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="my-8">
+                    <hr/>
+                </div>
+
+                <div className="mb-4">
+                    <label htmlFor="imagePassport" className="mb-2 block text-sm font-medium">
+                        Passport
+                    </label>
+                    <div className="relative mt-2 rounded-md">
+                        <div className="relative">
+                            <input
+                                id="imagePassport"
+                                name="imagePassport"
+                                ref={imagePassportRef}
+                                type="file"
+                                accept="image/png, image/jpeg"
+                                placeholder="Masukkan gambar"
+                                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                alt="gambar petugas"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="mb-4">
+                    <label htmlFor="imageVisa" className="mb-2 block text-sm font-medium">
+                        Visa
+                    </label>
+                    <div className="relative mt-2 rounded-md">
+                        <div className="relative">
+                            <input
+                                id="imageVisa"
+                                name="imageVisa"
+                                ref={imageVisaRef}
+                                type="file"
+                                accept="image/png, image/jpeg"
+                                placeholder="Masukkan gambar"
+                                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                alt="gambar petugas"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="mb-4">
+                    <label htmlFor="photoCard" className="mb-2 block text-sm font-medium">
+                        Pas Foto
+                    </label>
+                    <div className="relative mt-2 rounded-md">
+                        <div className="relative">
+                            <input
+                                id="photoCard"
+                                name="photoCard"
+                                ref={imageCardRef}
+                                type="file"
+                                accept="image/png, image/jpeg"
+                                placeholder="Masukkan gambar"
+                                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                alt="gambar petugas"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="mb-4">
+                    <label htmlFor="identityPhoto" className="mb-2 block text-sm font-medium">
+                        KTP
+                    </label>
+                    <div className="relative mt-2 rounded-md">
+                        <div className="relative">
+                            <input
+                                id="identityPhoto"
+                                name="identityPhoto"
+                                ref={imageIdentityRef}
+                                type="file"
+                                accept="image/png, image/jpeg"
+                                placeholder="Masukkan gambar"
+                                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                alt="gambar petugas"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="my-8">
+                    <hr/>
+                </div>
+
                 <div className="flex justify-end gap-4">
                     <Link
                         href="/"
@@ -331,5 +547,5 @@ export default function FormPackageRegistration({variants}: {
 
             </div>
         </form>
-    )
+    );
 }

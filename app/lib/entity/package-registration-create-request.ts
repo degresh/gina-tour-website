@@ -15,4 +15,13 @@ export type PackageRegistrationCreateRequest = {
     address: string;
     job: string;
     education: string;
+    alreadyGoingUmroh: string;
+    smoking: string;
+    hasDisease: string;
+    diseaseDescription?: string;
+    needWheelChair: string;
+    passportImageUrl: string;
+    visaImageUrl: string;
+    photoCardImageUrl: string;
+    identityCardImageUrl: string;
 }
