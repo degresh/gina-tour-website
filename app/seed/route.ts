@@ -132,17 +132,31 @@ async function createTablePaketTransportation() {
     `;
 }
 
+async function createTablePaymentMethod() {
+    await client.sql`
+        CREATE TABLE payment_method (
+             id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+             image_url VARCHAR(255),
+             bank_name VARCHAR(32) NOT NULL,
+             account_name VARCHAR(56) NOT NULL,
+             account_number VARCHAR(24) NOT NULL
+        );
+    `;
+}
+
 async function createTablePayment() {
     await client.sql`
         CREATE TABLE payment (
             id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
             registration_id INT,
+            payment_method_id INT,
             amount DECIMAL(10, 2) NOT NULL,
             status VARCHAR(50) NOT NULL,
             reject_reason TEXT,
             type VARCHAR(50) NOT NULL,
             url VARCHAR(255),
-            FOREIGN KEY (registration_id) REFERENCES pendaftaran(id)
+            FOREIGN KEY (registration_id) REFERENCES pendaftaran(id),
+            FOREIGN KEY (payment_method_id) REFERENCES payment_method(id)
         );
     `;
 }
