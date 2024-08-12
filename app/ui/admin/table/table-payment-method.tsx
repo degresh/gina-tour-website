@@ -1,17 +1,17 @@
-import { deletePaymentMethodById, getPaymentMethods } from "@/app/lib/database/payment-method";
+"use client";
+
+import { submitDeletePaymentMethodById } from "@/app/lib/actions";
+import { deletePaymentMethodById } from "@/app/lib/database/payment-method";
 import { PaymentMethod } from "@/app/lib/entity/payment-method";
 import ButtonIconAction from "@/app/ui/button-icon-action";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
-export default async function PaymentMethodTable({query, page}: {
-    query: string;
-    page: number;
+export default function PaymentMethodTable({paymentMethods}: {
+    paymentMethods: PaymentMethod[]
 }) {
-    const paymentMethods: PaymentMethod[] = await getPaymentMethods(query, page);
-
     async function onDeleteAction(paymentMethodId: number) {
-        await deletePaymentMethodById(paymentMethodId);
+        await submitDeletePaymentMethodById(paymentMethodId);
     }
 
     return (
@@ -42,11 +42,14 @@ export default async function PaymentMethodTable({query, page}: {
                         </tr>
                         </thead>
                         <tbody className="bg-white">
-                        {paymentMethods?.map((paymentMethod) => (
+                        {paymentMethods?.map((paymentMethod: PaymentMethod, index: number) => (
                             <tr
                                 key={paymentMethod.id}
                                 className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                             >
+                                <td className="whitespace-nowrap px-3 py-3">
+                                    {index + 1}
+                                </td>
                                 <td className="whitespace-normal px-3 py-3">
                                     <Image
                                         src={paymentMethod.imageUrl}

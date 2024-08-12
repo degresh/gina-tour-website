@@ -1,4 +1,4 @@
-import { getPaymentMethodPages } from "@/app/lib/database/payment-method";
+import { getPaymentMethodPages, getPaymentMethods } from "@/app/lib/database/payment-method";
 import Pagination from "@/app/ui/admin/pagination";
 import PaymentMethodTable from "@/app/ui/admin/table/table-payment-method";
 import { CreateButton } from "@/app/ui/button";
@@ -13,6 +13,7 @@ export default async function Page({ searchParams }: {
     const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
     const totalPages = await getPaymentMethodPages(query);
+    const paymentMethods = await getPaymentMethods(query, currentPage);
 
     return (
         <div className="w-full">
@@ -26,7 +27,7 @@ export default async function Page({ searchParams }: {
             { totalPages > 0 ? (
                 <div className="flex grow flex-col h-full">
                     <div className="h-full grow md:block">
-                        <PaymentMethodTable query={query} page={currentPage}/>
+                        <PaymentMethodTable paymentMethods={paymentMethods}/>
                     </div>
                     <div className="mt-5 flex w-full justify-center">
                         <Pagination totalPages={totalPages}/>

@@ -7,10 +7,12 @@ import { createPackageRegistration, updateRegistrationStatus } from "@/app/lib/d
 import { createPackageTransportation } from "@/app/lib/database/package-transportation";
 import { createPackageVariant } from "@/app/lib/database/package-variant";
 import { createPayment } from "@/app/lib/database/payment";
+import { createPaymentMethod, deletePaymentMethodById } from "@/app/lib/database/payment-method";
 import { TourPackage, TourPackageVariant } from "@/app/lib/definitions";
 import { PackageRegistrationCreateRequest } from "@/app/lib/entity/package-registration-create-request";
 import { PackageVariant } from "@/app/lib/entity/package-variant";
 import { PaymentCreateRequest } from "@/app/lib/entity/payment-create-request";
+import { PaymentMethodCreateRequest } from "@/app/lib/entity/payment-method-create-request";
 import { signIn } from "@/auth";
 import { sql } from "@vercel/postgres";
 import { AuthError } from "next-auth";
@@ -127,4 +129,16 @@ export async function submitRegistrationStatus(registrationId: number, status: s
 
     revalidatePath("/admin/registration");
     redirect("/admin/registration");
+}
+
+export async function submitPaymentMethod(request: PaymentMethodCreateRequest) {
+    await createPaymentMethod(request);
+
+    revalidatePath("/admin/payment-method");
+    redirect("/admin/payment-method");
+}
+
+export async function submitDeletePaymentMethodById(id: number) {
+    await deletePaymentMethodById(id);
+    revalidatePath("/admin/payment-method");
 }

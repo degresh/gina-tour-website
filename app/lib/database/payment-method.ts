@@ -6,11 +6,11 @@ const ITEMS_PER_PAGE: number = 10;
 
 export async function createPaymentMethod(request: PaymentMethodCreateRequest): Promise<boolean> {
     try {
-        await sql`
+        const query = await sql`
             INSERT INTO payment_method (image_url, bank_name, account_name, account_number)
             VALUES (${request.imageUrl}, ${request.bankName}, ${request.accountName}, ${request.accountNumber})
         `;
-        return true;
+        return query.rowCount > 1;
     } catch (error) {
         console.error("[PAYMENT METHOD] Database Error", error);
         return false;
@@ -42,7 +42,7 @@ export async function getPaymentMethodPages(keyword: string): Promise<number> {
     try {
         const query = await sql`
             SELECT COUNT(*) FROM payment_method 
-            WHERE name ILIKE ${`%${keyword}%`}
+            WHERE bank_name ILIKE ${`%${keyword}%`}
         `;
 
         return Math.ceil(Number(query.rows[0].count) / ITEMS_PER_PAGE)
