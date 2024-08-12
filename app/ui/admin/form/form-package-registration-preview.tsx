@@ -505,7 +505,7 @@ export default function FormPackageRegistrationPreview({registrationDetail}: {
                                 Tolak Pendaftaran
                             </Button>
                             <Button
-                                onClick={() => updateRegistrationStatus("diterima")}
+                                onClick={() => updateRegistrationStatus("menunggu-pembayaran")}
                                 className="flex h-10 items-center rounded-lg px-4 text-sm text-white font-medium bg-blue-600 hover:bg-blue-400"
                             >
                                 Konfirmasi Pendaftaran
