@@ -1,110 +1,22 @@
 "use client"
 
-import { createRegistration } from "@/app/lib/actions";
-import { PackageRegistrationCreateRequest } from "@/app/lib/entity/package-registration-create-request";
-import { PackageVariant } from "@/app/lib/entity/package-variant";
+import { submitRegistrationStatus } from "@/app/lib/actions";
+import { PackageRegistrationDetail } from "@/app/lib/entity/package-registration-detail";
 import { Button } from "@/app/ui/button";
-import PackageRegistrationVariant from "@/app/ui/user/package-registration-variant";
-import { PutBlobResult } from "@vercel/blob";
-import Link from "next/link";
-import React, { useRef, useState } from "react";
+import Image from "next/image";
+import React from "react";
 
-export default function FormPackageRegistration({variants}: {
-    variants: PackageVariant[]
+export default function FormPackageRegistrationPreview({registrationDetail}: {
+    registrationDetail: PackageRegistrationDetail
 }) {
-    const [selectedVariantId, setSelectedVariantId] = useState<number>(0);
-    const [hasDisease, setHasDisease] = useState<boolean>(false);
 
-    const imagePassportRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
-    const imageVisaRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
-    const imageCardRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
-    const imageIdentityRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
+    async function updateRegistrationStatus(newStatus: string) {
+        await submitRegistrationStatus(registrationDetail.id, newStatus);
+    }
 
     return (
-        <form
-            className="w-full mt-4"
-            action={async (formData) => {
-                const passportFile = imagePassportRef.current.files[0];
-                const visaFile = imageVisaRef.current.files[0];
-                const cardFile = imageCardRef.current.files[0];
-                const identityFile = imageIdentityRef.current.files[0];
-
-                const passportFileResponse = await fetch(`/api/upload?filename=${passportFile.name}`, {
-                    method: 'POST',
-                    body: passportFile
-                });
-                const visaFileResponse = await fetch(`/api/upload?filename=${visaFile.name}`, {
-                    method: 'POST',
-                    body: visaFile
-                });
-                const cardFileResponse = await fetch(`/api/upload?filename=${cardFile.name}`, {
-                    method: 'POST',
-                    body: cardFile
-                });
-                const identityFileResponse = await fetch(`/api/upload?filename=${identityFile.name}`, {
-                    method: 'POST',
-                    body: identityFile
-                });
-
-                const passportBlob = (await passportFileResponse.json()) as PutBlobResult;
-                const visaBlob = (await visaFileResponse.json()) as PutBlobResult;
-                const cardBlob = (await cardFileResponse.json()) as PutBlobResult;
-                const identityBlob = (await identityFileResponse.json()) as PutBlobResult;
-
-                let diseaseDescription = '';
-                
-                if (hasDisease) {
-                    diseaseDescription = formData.get("hasDiseaseDescription").toString()
-                }
-
-
-                const request: PackageRegistrationCreateRequest = {
-                    packageVariantId: selectedVariantId,
-                    name: formData.get("name").toString(),
-                    fatherName: formData.get("fatherName").toString(),
-                    motherName: formData.get("motherName").toString(),
-                    placeOfBirth: formData.get("placeOfBirth").toString(),
-                    dateOfBirth: formData.get("dateOfBirth").toString(),
-                    gender: formData.get("gender").toString(),
-                    phone: formData.get("phone").toString(),
-                    email: formData.get("email").toString(),
-                    ward: formData.get("ward").toString(),
-                    subDistrict: formData.get("subDistrict").toString(),
-                    district: formData.get("district").toString(),
-                    postalCode: formData.get("postalCode").toString(),
-                    address: formData.get("address").toString(),
-                    job: formData.get("job").toString(),
-                    education: formData.get("education").toString(),
-                    alreadyGoingUmroh: formData.get("alreadyGoingUmroh").valueOf().toString(),
-                    smoking: formData.get("smoking").valueOf().toString(),
-                    hasDisease: formData.get("hasDisease").valueOf().toString(),
-                    diseaseDescription: diseaseDescription,
-                    needWheelChair: formData.get("needWheelChair").valueOf().toString(),
-                    passportImageUrl: passportBlob.url,
-                    visaImageUrl: visaBlob.url,
-                    photoCardImageUrl: cardBlob.url,
-                    identityCardImageUrl: identityBlob.url,
-                };
-
-                await createRegistration(request, variants, selectedVariantId);
-            }}
-        >
+        <div className="w-full mt-4">
             <div className="flex flex-col content-center bg-white mt-6 mx-8 rounded-lg p-4 gap-4">
-
-                <div className="w-full">
-                    <label className="mb-2 block text-sm font-medium">
-                        Pilihan Paket
-                    </label>
-                    <PackageRegistrationVariant
-                        packageVariants={variants}
-                        selectedId={selectedVariantId}
-                        onSelect={setSelectedVariantId}
-                    />
-                </div>
-
-                <div className="my-8">
-                    <hr/>
-                </div>
 
                 <div className="w-full">
                     <label htmlFor="name" className="mb-2 block text-sm font-medium">
@@ -116,6 +28,8 @@ export default function FormPackageRegistration({variants}: {
                                 id="name"
                                 name="name"
                                 type="text"
+                                value={registrationDetail.name}
+                                readOnly={true}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                             />
                         </div>
@@ -132,6 +46,8 @@ export default function FormPackageRegistration({variants}: {
                                 id="fatherName"
                                 name="fatherName"
                                 type="text"
+                                value={registrationDetail.fatherName}
+                                readOnly={true}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                             />
                         </div>
@@ -148,6 +64,8 @@ export default function FormPackageRegistration({variants}: {
                                 id="motherName"
                                 name="motherName"
                                 type="text"
+                                value={registrationDetail.motherName}
+                                readOnly={true}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                             />
                         </div>
@@ -165,6 +83,8 @@ export default function FormPackageRegistration({variants}: {
                                     id="placeOfBirth"
                                     name="placeOfBirth"
                                     type="text"
+                                    value={registrationDetail.placeOfBirth}
+                                    readOnly={true}
                                     className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                                 />
                             </div>
@@ -180,6 +100,8 @@ export default function FormPackageRegistration({variants}: {
                                     id="dateOfBirth"
                                     name="dateOfBirth"
                                     type="date"
+                                    value={registrationDetail.dateOfBirth}
+                                    readOnly={true}
                                     className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                                 />
                             </div>
@@ -197,6 +119,8 @@ export default function FormPackageRegistration({variants}: {
                                 id="gender"
                                 name="gender"
                                 type="phone"
+                                value={registrationDetail.gender}
+                                readOnly={true}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                             />
                         </div>
@@ -213,6 +137,8 @@ export default function FormPackageRegistration({variants}: {
                                 name="phone"
                                 type="phone"
                                 id="phone"
+                                value={registrationDetail.phone}
+                                readOnly={true}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                             />
                         </div>
@@ -229,6 +155,8 @@ export default function FormPackageRegistration({variants}: {
                                 id="email"
                                 name="email"
                                 type="email"
+                                value={registrationDetail.email}
+                                readOnly={true}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                             />
                         </div>
@@ -250,6 +178,8 @@ export default function FormPackageRegistration({variants}: {
                                     id="ward"
                                     name="ward"
                                     type="text"
+                                    value={registrationDetail.ward}
+                                    readOnly={true}
                                     className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                                 />
                             </div>
@@ -265,6 +195,8 @@ export default function FormPackageRegistration({variants}: {
                                     id="subDistrict"
                                     name="subDistrict"
                                     type="text"
+                                    value={registrationDetail.subDistrict}
+                                    readOnly={true}
                                     className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                                 />
                             </div>
@@ -283,6 +215,8 @@ export default function FormPackageRegistration({variants}: {
                                     id="district"
                                     name="district"
                                     type="text"
+                                    value={registrationDetail.district}
+                                    readOnly={true}
                                     className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                                 />
                             </div>
@@ -298,6 +232,8 @@ export default function FormPackageRegistration({variants}: {
                                     id="postalCode"
                                     name="postalCode"
                                     type="text"
+                                    value={registrationDetail.postalCode}
+                                    readOnly={true}
                                     className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                                 />
                             </div>
@@ -315,6 +251,8 @@ export default function FormPackageRegistration({variants}: {
                                 id="address"
                                 name="address"
                                 type="text"
+                                value={registrationDetail.address}
+                                readOnly={true}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                             />
                         </div>
@@ -335,6 +273,8 @@ export default function FormPackageRegistration({variants}: {
                                 id="job"
                                 name="job"
                                 type="text"
+                                value={registrationDetail.job}
+                                readOnly={true}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                             />
                         </div>
@@ -351,6 +291,8 @@ export default function FormPackageRegistration({variants}: {
                                 id="education"
                                 name="education"
                                 type="text"
+                                value={registrationDetail.education}
+                                readOnly={true}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                             />
                         </div>
@@ -370,10 +312,12 @@ export default function FormPackageRegistration({variants}: {
                             <select
                                 id="alreadyGoingUmroh"
                                 name="alreadyGoingUmroh"
+                                defaultValue={registrationDetail.alreadyGoingUmroh}
+                                disabled={true}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                             >
                                 <option value="Ya">Ya</option>
-                                <option value="Tidak" selected={true}>Tidak</option>
+                                <option value="Tidak">Tidak</option>
                             </select>
                         </div>
                     </div>
@@ -388,10 +332,12 @@ export default function FormPackageRegistration({variants}: {
                             <select
                                 id="smoking"
                                 name="smoking"
+                                defaultValue={registrationDetail.smoking}
+                                disabled={true}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                             >
                                 <option value="Ya">Ya</option>
-                                <option value="Tidak" selected={true}>Tidak</option>
+                                <option value="Tidak">Tidak</option>
                             </select>
                         </div>
                     </div>
@@ -406,20 +352,18 @@ export default function FormPackageRegistration({variants}: {
                             <select
                                 id="hasDisease"
                                 name="hasDisease"
-                                onChange={(event) => {
-                                    event.preventDefault();
-                                    setHasDisease(event.target.value === "Ya");
-                                }}
+                                defaultValue={registrationDetail.hasDisease}
+                                disabled={true}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                             >
                                 <option value="Ya">Ya</option>
-                                <option value="Tidak" selected={true}>Tidak</option>
+                                <option value="Tidak">Tidak</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                {hasDisease ? (<div className="w-full">
+                {registrationDetail.diseaseDescription ? (<div className="w-full">
                     <label htmlFor="diseaseDescription" className="mb-2 block text-sm font-medium">
                         Keterangan Penyakit
                     </label>
@@ -433,7 +377,7 @@ export default function FormPackageRegistration({variants}: {
                             />
                         </div>
                     </div>
-                </div>) : <div>{hasDisease.valueOf()}</div>
+                </div>) : <div></div>
                 }
 
                 <div className="w-full">
@@ -445,10 +389,12 @@ export default function FormPackageRegistration({variants}: {
                             <select
                                 id="needWheelChair"
                                 name="needWheelChair"
+                                defaultValue={registrationDetail.needWheelChair}
+                                disabled={true}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
                             >
                                 <option value="Ya">Ya</option>
-                                <option value="Tidak" selected={true}>Tidak</option>
+                                <option value="Tidak">Tidak</option>
                             </select>
                         </div>
                     </div>
@@ -464,15 +410,12 @@ export default function FormPackageRegistration({variants}: {
                     </label>
                     <div className="relative mt-2 rounded-md">
                         <div className="relative">
-                            <input
-                                id="imagePassport"
-                                name="imagePassport"
-                                ref={imagePassportRef}
-                                type="file"
-                                accept="image/png, image/jpeg"
-                                placeholder="Masukkan gambar"
-                                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                                alt="gambar petugas"
+                            <Image
+                                src={registrationDetail.passportImageUrl}
+                                width={240}
+                                height={240}
+                                objectFit="contain"
+                                alt="Gambar"
                             />
                         </div>
                     </div>
@@ -484,15 +427,12 @@ export default function FormPackageRegistration({variants}: {
                     </label>
                     <div className="relative mt-2 rounded-md">
                         <div className="relative">
-                            <input
-                                id="imageVisa"
-                                name="imageVisa"
-                                ref={imageVisaRef}
-                                type="file"
-                                accept="image/png, image/jpeg"
-                                placeholder="Masukkan gambar"
-                                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                                alt="gambar petugas"
+                            <Image
+                                src={registrationDetail.visaImageUrl}
+                                width={240}
+                                height={240}
+                                objectFit="contain"
+                                alt="Gambar"
                             />
                         </div>
                     </div>
@@ -504,15 +444,12 @@ export default function FormPackageRegistration({variants}: {
                     </label>
                     <div className="relative mt-2 rounded-md">
                         <div className="relative">
-                            <input
-                                id="photoCard"
-                                name="photoCard"
-                                ref={imageCardRef}
-                                type="file"
-                                accept="image/png, image/jpeg"
-                                placeholder="Masukkan gambar"
-                                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                                alt="gambar petugas"
+                            <Image
+                                src={registrationDetail.photoCardImageUrl}
+                                width={240}
+                                height={240}
+                                objectFit="contain"
+                                alt="Gambar"
                             />
                         </div>
                     </div>
@@ -524,40 +461,42 @@ export default function FormPackageRegistration({variants}: {
                     </label>
                     <div className="relative mt-2 rounded-md">
                         <div className="relative">
-                            <input
-                                id="identityPhoto"
-                                name="identityPhoto"
-                                ref={imageIdentityRef}
-                                type="file"
-                                accept="image/png, image/jpeg"
-                                placeholder="Masukkan gambar"
-                                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                                alt="gambar petugas"
+                            <Image
+                                src={registrationDetail.identityCardImageUrl}
+                                width={240}
+                                height={240}
+                                objectFit="contain"
+                                alt="Gambar"
                             />
                         </div>
                     </div>
                 </div>
 
-                <div className="my-8">
-                    <hr/>
-                </div>
+                { registrationDetail.registrationStatus === "Pending" ? (
+                    <div>
+                        <div className="my-8">
+                            <hr/>
+                        </div>
 
-                <div className="flex justify-end gap-4">
-                    <Link
-                        href="/"
-                        className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
-                    >
-                        Batal
-                    </Link>
-                    <Button
-                        type="submit"
-                        className="flex h-10 items-center rounded-lg px-4 text-sm text-white font-medium bg-blue-600 hover:bg-blue-400"
-                    >
-                        Daftar Paket
-                    </Button>
-                </div>
+                        <div className="flex justify-end gap-4">
+                            <Button
+                                onClick={() => updateRegistrationStatus("ditolak")}
+                                className="flex h-10 items-center rounded-lg px-4 text-sm text-white font-medium bg-blue-600 hover:bg-blue-400"
+                            >
+                                Tolak Pendaftaran
+                            </Button>
+                            <Button
+                                onClick={() => updateRegistrationStatus("diterima")}
+                                className="flex h-10 items-center rounded-lg px-4 text-sm text-white font-medium bg-blue-600 hover:bg-blue-400"
+                            >
+                                Konfirmasi Pendaftaran
+                            </Button>
+                        </div>
+                    </div>
+                ): <div></div>
+                }
 
             </div>
-        </form>
+        </div>
     );
 }

@@ -3,7 +3,7 @@
 import { createPackage } from "@/app/lib/database/package";
 import { createPackageFacility } from "@/app/lib/database/package-facility";
 import { createPackageHotel } from "@/app/lib/database/package-hotel";
-import { createPackageRegistration } from "@/app/lib/database/package-registration";
+import { createPackageRegistration, updateRegistrationStatus } from "@/app/lib/database/package-registration";
 import { createPackageTransportation } from "@/app/lib/database/package-transportation";
 import { createPackageVariant } from "@/app/lib/database/package-variant";
 import { createPayment } from "@/app/lib/database/payment";
@@ -120,4 +120,11 @@ export async function authenticate(
         }
         throw error;
     }
+}
+
+export async function submitRegistrationStatus(registrationId: number, status: string) {
+    await updateRegistrationStatus(registrationId, status);
+
+    revalidatePath("/admin/registration");
+    redirect("/admin/registration");
 }

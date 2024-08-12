@@ -83,7 +83,7 @@ export default async function TableRegistration({query, page}: {
 
                                 <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                     <div className="flex justify-end gap-3">
-                                        <ButtonIconNav href="" icon={EyeIcon}/>
+                                        <ButtonIconNav href={"registration/" + packageRegistration.id.toString()} icon={EyeIcon}/>
                                     </div>
                                 </td>
                             </tr>
