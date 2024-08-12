@@ -1,7 +1,5 @@
 import { CreateFacility } from "@/app/ui/admin/facility/buttons";
 import FacilityTable from "@/app/ui/admin/facility/table";
-import OfficerTable from "@/app/ui/admin/officer/table";
-import { CreateOfficer } from "@/app/ui/buttons";
 import Search from "@/app/ui/search";
 
 export default function Page({ searchParams } : {

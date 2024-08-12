@@ -1,8 +1,6 @@
 import { getPagedRegistrations } from "@/app/lib/database/package-registration";
-import { getPagedTransportations } from "@/app/lib/database/transportation";
 import ButtonIconNav from "@/app/ui/button-icon-nav";
-import { EyeIcon, PencilIcon } from "@heroicons/react/24/outline";
-import Image from "next/image";
+import { EyeIcon } from "@heroicons/react/24/outline";
 
 export default async function TableRegistrationUser({query, page}: {
     query: string;
@@ -83,8 +81,10 @@ export default async function TableRegistrationUser({query, page}: {
 
                                 <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                     <div className="flex justify-end gap-3">
-                                        <ButtonIconNav href={"registration/" + packageRegistration.id.toString()}
-                                                       icon={EyeIcon}/>
+                                        <ButtonIconNav
+                                            href={"package-registration/" + packageRegistration.id.toString()}
+                                            icon={EyeIcon}
+                                        />
                                     </div>
                                 </td>
                             </tr>

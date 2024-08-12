@@ -1,12 +1,7 @@
-import { getHotelPages } from "@/app/lib/database/hotel";
 import { getRegistrationPages } from "@/app/lib/database/package-registration";
-import { getTransportationPages } from "@/app/lib/database/transportation";
 import Pagination from "@/app/ui/admin/pagination";
-import TableHotel from "@/app/ui/admin/table/table-hotel";
-import TableRegistration from "@/app/ui/admin/table/table-registration";
-import TableTransportation from "@/app/ui/admin/table/table-transportation";
-import { CreateOfficer } from "@/app/ui/buttons";
 import Search from "@/app/ui/search";
+import TableRegistrationUser from "@/app/ui/user/table-registration-user";
 
 export default async function Page({searchParams}: {
     searchParams?: {
@@ -28,7 +23,7 @@ export default async function Page({searchParams}: {
             </div>
             <div className="flex grow flex-col h-full">
                 <div className="h-full grow md:block">
-                    <TableRegistration query={query} page={currentPage}/>
+                    <TableRegistrationUser query={query} page={currentPage}/>
                 </div>
                 <div className="mt-5 flex w-full justify-center">
                     <Pagination totalPages={totalPages}/>

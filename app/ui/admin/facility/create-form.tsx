@@ -4,7 +4,7 @@ import { createFacility } from "@/app/lib/actions";
 import { Button } from "@/app/ui/button";
 import { PutBlobResult } from "@vercel/blob";
 import Link from "next/link";
-import React, { useRef, useActionState } from "react";
+import React, { useRef } from "react";
 
 export default function Form() {
   const inputFileRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);

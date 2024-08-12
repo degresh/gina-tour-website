@@ -1,6 +1,6 @@
 import { getAllFacilities } from "@/app/lib/data";
-import { getHotels, getPagedHotels } from "@/app/lib/database/hotel";
-import { getPagedTransportations, getTransportations } from "@/app/lib/database/transportation";
+import { getHotels } from "@/app/lib/database/hotel";
+import { getTransportations } from "@/app/lib/database/transportation";
 import Form from "@/app/ui/admin/package/create-form";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
 

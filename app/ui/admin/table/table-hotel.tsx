@@ -1,9 +1,6 @@
 import { getPagedHotels } from "@/app/lib/database/hotel";
-import ButtonIconAction from "@/app/ui/button-icon-action";
 import ButtonIconNav from "@/app/ui/button-icon-nav";
-import { PencilIcon } from "@heroicons/react/24/outline";
-import { EyeIcon } from "@heroicons/react/24/outline";
-import { TrashIcon } from "@heroicons/react/24/solid";
+import { EyeIcon, PencilIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 
 export default async function TableHotel({ query, page }: {

@@ -18,6 +18,25 @@ export default function FormPackageRegistrationPreview({registrationDetail}: {
         <div className="w-full mt-4">
             <div className="flex flex-col content-center bg-white mt-6 mx-8 rounded-lg p-4 gap-4">
 
+                <div
+                    className={`grow basis-1/4 border rounded-lg border-gray-300`}>
+                    <div className="p-4">
+                        <h2 className="text-lg font-bold">{registrationDetail.packageName}</h2>
+                        <h3 className="text-lg font-bold mt-2">{registrationDetail.packageVariantName}</h3>
+                        <p className="text-gray-700">{registrationDetail.packageVariantDescription}</p>
+                        <span> {
+                            new Intl.NumberFormat('id-ID', {
+                                style: 'currency',
+                                currency: 'IDR'
+                            }).format(registrationDetail.packageVariantPrice)
+                        } </span>
+                    </div>
+                </div>
+
+                <div className="my-8">
+                    <hr/>
+                </div>
+
                 <div className="w-full">
                     <label htmlFor="name" className="mb-2 block text-sm font-medium">
                         Nama
@@ -472,7 +491,7 @@ export default function FormPackageRegistrationPreview({registrationDetail}: {
                     </div>
                 </div>
 
-                { registrationDetail.registrationStatus === "Pending" ? (
+                {registrationDetail.registrationStatus === "Pending" ? (
                     <div>
                         <div className="my-8">
                             <hr/>
@@ -493,7 +512,7 @@ export default function FormPackageRegistrationPreview({registrationDetail}: {
                             </Button>
                         </div>
                     </div>
-                ): <div></div>
+                ) : <div></div>
                 }
 
             </div>

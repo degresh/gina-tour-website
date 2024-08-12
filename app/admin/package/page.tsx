@@ -1,7 +1,5 @@
-import OfficerTable from "@/app/ui/admin/officer/table";
 import PackageTable from "@/app/ui/admin/package/table";
 import { CreateButton } from "@/app/ui/button";
-import { CreateOfficer } from "@/app/ui/buttons";
 import Search from "@/app/ui/search";
 
 export default function Page({ searchParams }: {

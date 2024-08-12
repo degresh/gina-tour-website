@@ -1,14 +1,15 @@
 import { getFacilityCount } from "@/app/lib/database/facility";
-import { getHotelCount, getHotels } from "@/app/lib/database/hotel";
+import { getHotelCount } from "@/app/lib/database/hotel";
 import { getPackageCount } from "@/app/lib/database/package";
 import { getTransportationCount } from "@/app/lib/database/transportation";
 import DashboardCard from "@/app/ui/admin/dashboard-card";
 import {
     ArrowUturnLeftIcon,
-    BuildingOffice2Icon, BuildingOfficeIcon,
-    IdentificationIcon, RocketLaunchIcon,
-    Square3Stack3DIcon,
-    UserGroupIcon
+    BuildingOffice2Icon,
+    BuildingOfficeIcon,
+    IdentificationIcon,
+    RocketLaunchIcon,
+    Square3Stack3DIcon
 } from "@heroicons/react/24/solid";
 import React from "react";
 

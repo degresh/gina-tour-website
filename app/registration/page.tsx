@@ -1,6 +1,4 @@
-import Navbar from "@/app/ui/navbar";
 import RegistrationForm from "@/app/ui/user/account-registration-form";
-import Footer from "@/app/ui/user/footer";
 
 export default function Page() {
   return (

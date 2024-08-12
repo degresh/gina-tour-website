@@ -1,4 +1,3 @@
-import { TourPackageVariant } from "@/app/lib/definitions";
 import { sql } from "@vercel/postgres";
 
 export async function createPackageFacility(

@@ -1,5 +1,4 @@
 import { Transportation } from "@/app/lib/entity/transportation";
-import Image from "next/image";
 
 export default function TransportationContainer({transportations, selectedTransportations, onClick}: {
     transportations: Transportation[],

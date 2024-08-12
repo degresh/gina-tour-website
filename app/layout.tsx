@@ -27,7 +27,7 @@ export default function RootLayout({children}: Readonly<{
                 <main className="grow">
                     {children}
                 </main>
-                <footer className="flex-none">
+                <footer className="flex-none bottom-0">
                     <Footer />
                 </footer>
             </Providers>

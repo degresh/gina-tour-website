@@ -2,7 +2,6 @@
 
 import { authenticate } from "@/app/lib/actions";
 import { Button } from "@/app/ui/button";
-import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useActionState } from "react";
 
 export default function LoginForm() {

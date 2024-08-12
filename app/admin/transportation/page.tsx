@@ -1,7 +1,5 @@
-import { getHotelPages } from "@/app/lib/database/hotel";
 import { getTransportationPages } from "@/app/lib/database/transportation";
 import Pagination from "@/app/ui/admin/pagination";
-import TableHotel from "@/app/ui/admin/table/table-hotel";
 import TableTransportation from "@/app/ui/admin/table/table-transportation";
 import { CreateOfficer } from "@/app/ui/buttons";
 import Search from "@/app/ui/search";
