@@ -1,5 +1,6 @@
 "use client";
 
+import { submitRegistrationData } from "@/app/lib/actions";
 import { useState } from "react";
 
 export default function RegistrationForm() {
@@ -53,13 +54,13 @@ export default function RegistrationForm() {
   };
 
   // @ts-ignore
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (validateForm()) {
-      // Handle form submission
-      console.log('Form submitted:', formData);
-    }
+    console.log("handle submit");
+
+    console.log('Form submitted:', formData);
+    await submitRegistrationData(formData);
   };
 
   return (

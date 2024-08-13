@@ -1,5 +1,6 @@
 'use server';
 
+import { createAccount } from "@/app/lib/database/account";
 import { createPackage } from "@/app/lib/database/package";
 import { createPackageFacility } from "@/app/lib/database/package-facility";
 import { createPackageHotel } from "@/app/lib/database/package-hotel";
@@ -13,7 +14,7 @@ import { createPackageVariant } from "@/app/lib/database/package-variant";
 import { createPayment, updatePaymentStatusById } from "@/app/lib/database/payment";
 import { createPaymentMethod, deletePaymentMethodById } from "@/app/lib/database/payment-method";
 import { createRefund } from "@/app/lib/database/refund";
-import { TourPackage, TourPackageVariant } from "@/app/lib/definitions";
+import { Account, TourPackage, TourPackageVariant } from "@/app/lib/definitions";
 import { PackageRegistrationCreateRequest } from "@/app/lib/entity/package-registration-create-request";
 import { PackageVariant } from "@/app/lib/entity/package-variant";
 import { Payment } from "@/app/lib/entity/payment";
@@ -186,4 +187,21 @@ export async function submitCreateRefundData(registrationId: number, reason: str
 
     revalidatePath(`/package-registration/${registrationId}/refund`);
     redirect(`/package-registration/${registrationId}/refund`);
+}
+
+export async function submitRegistrationData(formData: Object) {
+    const account: Account = {
+        id: "0",
+        nama: formData["name"],
+        foto: 'https://picsum.photos/200',
+        email: formData["email"],
+        telepon: formData["phone"],
+        password: formData["password"],
+        role: 'pengguna'
+    }
+
+    await createAccount(account);
+
+    revalidatePath(`/login`);
+    redirect(`/login`);
 }
