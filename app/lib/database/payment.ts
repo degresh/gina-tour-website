@@ -66,6 +66,21 @@ export async function getPaymentById(paymentId: number): Promise<Payment | null>
     }
 }
 
+export async function updatePaymentStatusById(paymentId: number, newStatus: string): Promise<boolean> {
+    try {
+        await sql`
+            UPDATE payment
+            SET status = ${newStatus} 
+            WHERE id = ${paymentId}
+        `;
+
+        return true;
+    } catch (error) {
+        console.error("[PAYMENT] Database Error", error);
+        return false;
+    }
+}
+
 /**
  * Internal Methods
  */

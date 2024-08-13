@@ -12,9 +12,6 @@ export default async function Page({params}: { params: { id: string } }) {
         registrationDetail.registrationStatus !== "pending" &&
         registrationDetail.registrationStatus !== "ditolak";
 
-    console.log("show actions:");
-    console.log(showActions);
-
     return (
         <main>
             <div className="mx-12">

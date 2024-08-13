@@ -3,14 +3,19 @@
 import { createPackage } from "@/app/lib/database/package";
 import { createPackageFacility } from "@/app/lib/database/package-facility";
 import { createPackageHotel } from "@/app/lib/database/package-hotel";
-import { createPackageRegistration, updateRegistrationStatus } from "@/app/lib/database/package-registration";
+import {
+    createPackageRegistration,
+    getRegistrationById,
+    updateRegistrationStatus
+} from "@/app/lib/database/package-registration";
 import { createPackageTransportation } from "@/app/lib/database/package-transportation";
 import { createPackageVariant } from "@/app/lib/database/package-variant";
-import { createPayment } from "@/app/lib/database/payment";
+import { createPayment, updatePaymentStatusById } from "@/app/lib/database/payment";
 import { createPaymentMethod, deletePaymentMethodById } from "@/app/lib/database/payment-method";
 import { TourPackage, TourPackageVariant } from "@/app/lib/definitions";
 import { PackageRegistrationCreateRequest } from "@/app/lib/entity/package-registration-create-request";
 import { PackageVariant } from "@/app/lib/entity/package-variant";
+import { Payment } from "@/app/lib/entity/payment";
 import { PaymentCreateRequest } from "@/app/lib/entity/payment-create-request";
 import { PaymentMethodCreateRequest } from "@/app/lib/entity/payment-method-create-request";
 import { signIn } from "@/auth";
@@ -148,4 +153,21 @@ export async function submitCreatePaymentData(data: PaymentCreateRequest) {
 
     revalidatePath(`/package-registration/${data.registrationId}/payment`);
     redirect(`/package-registration/${data.registrationId}/payment`);
+}
+
+export async function submitUpdatePaymentStatus(payment: Payment, newStatus: string) {
+    const success = await updatePaymentStatusById(payment.id, newStatus);
+
+    if (success && newStatus === "diterima") {
+        const registration = await getRegistrationById(payment.registrationId);
+
+        if (registration.registrationStatus === "menunggu-pembayaran") {
+            await updateRegistrationStatus(registration.id, "menunggu-pelunasan");
+        } else if (registration.registrationStatus === "menunggu-pelunasan") {
+            await updateRegistrationStatus(registration.id, "lunas");
+        }
+    }
+
+    revalidatePath(`/admin/registration/${payment.registrationId}/payment`);
+    redirect(`/admin/registration/${payment.registrationId}/payment`);
 }
