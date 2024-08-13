@@ -110,7 +110,7 @@ export async function createRegistration(
 
     await createPayment(paymentRequest);
 
-    redirect(`/package/registered/${registrationId}/payment`);
+    redirect("/package-registration");
 }
 
 export async function authenticate(
