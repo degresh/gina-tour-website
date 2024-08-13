@@ -13,13 +13,14 @@ import { createPackageTransportation } from "@/app/lib/database/package-transpor
 import { createPackageVariant } from "@/app/lib/database/package-variant";
 import { createPayment, updatePaymentStatusById } from "@/app/lib/database/payment";
 import { createPaymentMethod, deletePaymentMethodById } from "@/app/lib/database/payment-method";
-import { createRefund } from "@/app/lib/database/refund";
+import { createRefund, updateRefundStatusById } from "@/app/lib/database/refund";
 import { Account, TourPackage, TourPackageVariant } from "@/app/lib/definitions";
 import { PackageRegistrationCreateRequest } from "@/app/lib/entity/package-registration-create-request";
 import { PackageVariant } from "@/app/lib/entity/package-variant";
 import { Payment } from "@/app/lib/entity/payment";
 import { PaymentCreateRequest } from "@/app/lib/entity/payment-create-request";
 import { PaymentMethodCreateRequest } from "@/app/lib/entity/payment-method-create-request";
+import { Refund } from "@/app/lib/entity/refund";
 import { RefundCreateRequest } from "@/app/lib/entity/refund-create-request";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
@@ -138,7 +139,9 @@ export async function submitUpdatePaymentStatus(payment: Payment, newStatus: str
     if (success && newStatus === "diterima") {
         const registration = await getRegistrationById(payment.registrationId);
 
-        if (registration.registrationStatus === "menunggu-pembayaran") {
+        if (payment.type === "full") {
+            await updateRegistrationStatus(registration.id, "lunas");
+        } else if (registration.registrationStatus === "menunggu-pembayaran") {
             await updateRegistrationStatus(registration.id, "menunggu-pelunasan");
         } else if (registration.registrationStatus === "menunggu-pelunasan") {
             await updateRegistrationStatus(registration.id, "lunas");
@@ -178,4 +181,11 @@ export async function submitRegistrationData(formData: Object) {
 
     revalidatePath(`/login`);
     redirect(`/login`);
+}
+
+export async function submitUpdateRefundStatus(refund: Refund, newStatus: string) {
+    await updateRefundStatusById(refund.id, newStatus);
+
+    revalidatePath(`/admin/registration/${refund.registrationId}/refund`);
+    redirect(`/admin/registration/${refund.registrationId}/refund`);
 }

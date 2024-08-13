@@ -29,8 +29,6 @@ export default async function Page() {
                 <DashboardCard name="Transportasi" value={transportationCount} icon={RocketLaunchIcon}/>
                 <DashboardCard name="Fasilitas" value={facilityCount} icon={BuildingOffice2Icon}/>
                 <DashboardCard name="Paket" value={packageCount} icon={Square3Stack3DIcon}/>
-                <DashboardCard name="Pendaftaran" value={3} icon={IdentificationIcon}/>
-                <DashboardCard name="Pengembalian Dana" value={32} icon={ArrowUturnLeftIcon}/>
             </div>
         </div>
     );

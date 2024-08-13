@@ -45,6 +45,24 @@ export async function getRefundByRegistrationId(registrationId: number): Promise
     }
 }
 
+export async function getRefundById(refundId: number): Promise<Refund> {
+    try {
+        const query = await sql`
+            SELECT * FROM refund
+            WHERE id = ${refundId}
+        `;
+
+        if (query.rows.length > 0) {
+            return convertRowToRefund(query.rows[0]);
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error("[REFUND] Database Error", error);
+        return null;
+    }
+}
+
 export async function updateRefundStatusById(id: number, newStatus: string): Promise<boolean> {
     try {
         await sql`
