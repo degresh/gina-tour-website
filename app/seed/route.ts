@@ -161,6 +161,20 @@ async function createTablePayment() {
     `;
 }
 
+async function createTableRefund() {
+    await client.sql`
+        CREATE TABLE refund (
+            id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+            registration_id INT,
+            status VARCHAR(50) NOT NULL,
+            reason TEXT,
+            reject_reason TEXT,
+            url VARCHAR(255),
+            FOREIGN KEY (registration_id) REFERENCES pendaftaran(id)
+        );
+    `;
+}
+
 export async function GET() {
     try {
         await client.sql`BEGIN`;

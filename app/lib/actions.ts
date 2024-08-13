@@ -12,12 +12,14 @@ import { createPackageTransportation } from "@/app/lib/database/package-transpor
 import { createPackageVariant } from "@/app/lib/database/package-variant";
 import { createPayment, updatePaymentStatusById } from "@/app/lib/database/payment";
 import { createPaymentMethod, deletePaymentMethodById } from "@/app/lib/database/payment-method";
+import { createRefund } from "@/app/lib/database/refund";
 import { TourPackage, TourPackageVariant } from "@/app/lib/definitions";
 import { PackageRegistrationCreateRequest } from "@/app/lib/entity/package-registration-create-request";
 import { PackageVariant } from "@/app/lib/entity/package-variant";
 import { Payment } from "@/app/lib/entity/payment";
 import { PaymentCreateRequest } from "@/app/lib/entity/payment-create-request";
 import { PaymentMethodCreateRequest } from "@/app/lib/entity/payment-method-create-request";
+import { RefundCreateRequest } from "@/app/lib/entity/refund-create-request";
 import { signIn } from "@/auth";
 import { sql } from "@vercel/postgres";
 import { AuthError } from "next-auth";
@@ -170,4 +172,18 @@ export async function submitUpdatePaymentStatus(payment: Payment, newStatus: str
 
     revalidatePath(`/admin/registration/${payment.registrationId}/payment`);
     redirect(`/admin/registration/${payment.registrationId}/payment`);
+}
+
+export async function submitCreateRefundData(registrationId: number, reason: string) {
+    const request: RefundCreateRequest = {
+        registrationId: registrationId,
+        reason: reason,
+        status: 'pending',
+        rejectReason: '',
+        url: ''
+    }
+    await createRefund(request);
+
+    revalidatePath(`/package-registration/${registrationId}/refund`);
+    redirect(`/package-registration/${registrationId}/refund`);
 }
