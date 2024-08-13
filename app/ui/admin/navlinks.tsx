@@ -2,7 +2,7 @@
 
 import {
     BuildingOffice2Icon,
-    BuildingOfficeIcon,
+    BuildingOfficeIcon, CalendarDaysIcon,
     ChartBarIcon,
     CreditCardIcon,
     IdentificationIcon,
@@ -51,9 +51,9 @@ const links = [
         icon: IdentificationIcon,
     },
     {
-        name: 'Petugas',
-        href: '/admin/officer',
-        icon: UserGroupIcon
+        name: 'Penjadwalan',
+        href: '/admin/schedule',
+        icon: CalendarDaysIcon
     },
 ];
 

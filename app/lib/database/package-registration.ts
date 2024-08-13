@@ -109,7 +109,7 @@ export function getRegistrationPagesByAccountId(accountId: number, keyword: stri
     }
 }
 
-export async function getPagedRegistrations(keyword: string, page: number) {
+export async function getPagedRegistrations(keyword: string, page: number, limit: number = ITEMS_PER_PAGE) {
     try {
         const query = await sql`
             SELECT

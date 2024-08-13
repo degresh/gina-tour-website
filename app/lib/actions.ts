@@ -14,6 +14,7 @@ import { createPackageVariant } from "@/app/lib/database/package-variant";
 import { createPayment, updatePaymentStatusById } from "@/app/lib/database/payment";
 import { createPaymentMethod, deletePaymentMethodById } from "@/app/lib/database/payment-method";
 import { createRefund, updateRefundStatusById } from "@/app/lib/database/refund";
+import { createSchedule } from "@/app/lib/database/schedule";
 import { Account, TourPackage, TourPackageVariant } from "@/app/lib/definitions";
 import { PackageRegistrationCreateRequest } from "@/app/lib/entity/package-registration-create-request";
 import { PackageVariant } from "@/app/lib/entity/package-variant";
@@ -22,6 +23,7 @@ import { PaymentCreateRequest } from "@/app/lib/entity/payment-create-request";
 import { PaymentMethodCreateRequest } from "@/app/lib/entity/payment-method-create-request";
 import { Refund } from "@/app/lib/entity/refund";
 import { RefundCreateRequest } from "@/app/lib/entity/refund-create-request";
+import { ScheduleCreateRequest } from "@/app/lib/entity/schedule-create-request";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -188,4 +190,11 @@ export async function submitUpdateRefundStatus(refund: Refund, newStatus: string
 
     revalidatePath(`/admin/registration/${refund.registrationId}/refund`);
     redirect(`/admin/registration/${refund.registrationId}/refund`);
+}
+
+export async function submitScheduleData(request: ScheduleCreateRequest) {
+    await createSchedule(request);
+
+    revalidatePath(`/admin/schedule`);
+    redirect(`/admin/schedule`);
 }

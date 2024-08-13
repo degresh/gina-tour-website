@@ -175,6 +175,28 @@ async function createTableRefund() {
     `;
 }
 
+async function createTableSchedule() {
+    await client.sql`
+        CREATE TABLE schedule(
+            id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+            date VARCHAR(24) NOT NULL,
+            quota INT NOT NULL
+        )
+    `;
+}
+
+async function createTableScheduleMember() {
+    await client.sql`
+        CREATE TABLE schedule_member(
+            id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+            schedule_id INT,
+            registration_id INT,
+            FOREIGN KEY (schedule_id) REFERENCES schedule(id),
+            FOREIGN KEY (registration_id) REFERENCES pendaftaran(id)
+        )
+    `;
+}
+
 export async function GET() {
     try {
         await client.sql`BEGIN`;
