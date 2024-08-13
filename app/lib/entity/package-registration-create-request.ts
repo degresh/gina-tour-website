@@ -1,4 +1,5 @@
 export type PackageRegistrationCreateRequest = {
+    accountId: number;
     packageVariantId: number;
     name: string;
     fatherName: string;

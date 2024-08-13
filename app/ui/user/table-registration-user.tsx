@@ -1,17 +1,10 @@
-import { getPagedRegistrations } from "@/app/lib/database/package-registration";
+import { PackageRegistration } from "@/app/lib/entity/package-registration";
 import ButtonIconNav from "@/app/ui/button-icon-nav";
 import { EyeIcon } from "@heroicons/react/24/outline";
 
-export default async function TableRegistrationUser({query, page}: {
-    query: string;
-    page: number;
+export default async function TableRegistrationUser({packageRegistrations}: {
+    packageRegistrations: PackageRegistration[];
 }) {
-    const packageRegistrations = await getPagedRegistrations(query, page);
-
-    function onDeleteAction() {
-
-    }
-
     return (
         <div className="mt-6 flow-root">
             <div className="inline-block min-w-full align-middle">

@@ -1,4 +1,7 @@
-import { getRegistrationPages } from "@/app/lib/database/package-registration";
+import {
+    getPagedRegistrationsByAccountId,
+    getRegistrationPagesByAccountId
+} from "@/app/lib/database/package-registration";
 import Pagination from "@/app/ui/admin/pagination";
 import Search from "@/app/ui/search";
 import TableRegistrationUser from "@/app/ui/user/table-registration-user";
@@ -9,9 +12,11 @@ export default async function Page({searchParams}: {
         page?: string;
     }
 }) {
+    const account = JSON.parse(window.localStorage.getItem("token"));
     const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
-    const totalPages = await getRegistrationPages(query);
+    const totalPages = await getRegistrationPagesByAccountId(account.id, query);
+    const packageRegistrations = await getPagedRegistrationsByAccountId(account.id, query, currentPage);
 
     return (
         <div className="p-12">
@@ -23,7 +28,7 @@ export default async function Page({searchParams}: {
             </div>
             <div className="flex grow flex-col h-full">
                 <div className="h-full grow md:block">
-                    <TableRegistrationUser query={query} page={currentPage}/>
+                    <TableRegistrationUser packageRegistrations={packageRegistrations}/>
                 </div>
                 <div className="mt-5 flex w-full justify-center">
                     <Pagination totalPages={totalPages}/>

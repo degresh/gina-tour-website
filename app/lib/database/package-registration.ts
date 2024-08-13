@@ -39,7 +39,7 @@ export async function createPackageRegistration(request: PackageRegistrationCrea
                 identity_card_image_url
             ) 
             VALUES (
-                0, 
+                ${request.accountId},
                 ${request.packageVariantId}, 
                 ${request.name}, 
                 ${request.fatherName}, 
@@ -91,6 +91,19 @@ export async function getRegistrationPages(keyword: string): Promise<number> {
     }
 }
 
+export async function getRegistrationPagesByAccountId(accountId: number, keyword: string): Promise<number> {
+    try {
+        const query = await sql`
+            SELECT COUNT(*) FROM pendaftaran 
+            WHERE nama ILIKE ${`%${keyword}%`} AND akun_id = ${accountId}
+        `;
+
+        return Math.ceil(Number(query.rows[0].count) / ITEMS_PER_PAGE)
+    } catch (error) {
+        console.error("[REGISTRATION] Database Error", error);
+    }
+}
+
 export async function getPagedRegistrations(keyword: string, page: number) {
     try {
         const query = await sql`
@@ -107,6 +120,31 @@ export async function getPagedRegistrations(keyword: string, page: number) {
             INNER JOIN paket_varian ON paket_varian.id = pendaftaran.paket_id
             INNER JOIN paket ON paket.id = paket_varian.id_paket
             WHERE pendaftaran.nama ILIKE ${`%${keyword}%`}
+            LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset(page)}
+        `;
+
+        return query.rows.map(convertRowToPackageRegistration);
+    } catch (error) {
+        console.error("[TRANSPORTATION] Database Error", error);
+    }
+}
+
+export async function getPagedRegistrationsByAccountId(accountId: number, keyword: string, page: number) {
+    try {
+        const query = await sql`
+            SELECT
+                pendaftaran.id,
+                pendaftaran.nama,
+                pendaftaran.nomor_telepon,
+                pendaftaran.email,
+                pendaftaran.tanggal_pendaftaran,
+                pendaftaran.status_pendaftaran,
+                paket.nama as package_name,
+                paket_varian.nama as package_variant_name
+            FROM pendaftaran 
+            INNER JOIN paket_varian ON paket_varian.id = pendaftaran.paket_id
+            INNER JOIN paket ON paket.id = paket_varian.id_paket
+            WHERE pendaftaran.nama ILIKE ${`%${keyword}%`} AND pendaftaran.akun_id = ${accountId}
             LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset(page)}
         `;
 

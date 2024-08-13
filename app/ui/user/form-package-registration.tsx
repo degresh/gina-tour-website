@@ -20,6 +20,8 @@ export default function FormPackageRegistration({variants}: {
     const imageCardRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
     const imageIdentityRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
 
+    const user = JSON.parse(window.localStorage.getItem("token"));
+
     return (
         <form
             className="w-full mt-4"
@@ -59,6 +61,7 @@ export default function FormPackageRegistration({variants}: {
 
 
                 const request: PackageRegistrationCreateRequest = {
+                    accountId: user.id,
                     packageVariantId: selectedVariantId,
                     name: formData.get("name").toString(),
                     fatherName: formData.get("fatherName").toString(),
