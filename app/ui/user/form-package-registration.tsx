@@ -6,6 +6,7 @@ import { PackageVariant } from "@/app/lib/entity/package-variant";
 import { Button } from "@/app/ui/button";
 import PackageRegistrationVariant from "@/app/ui/user/package-registration-variant";
 import { PutBlobResult } from "@vercel/blob";
+import { decodeFromBase64 } from "next/dist/build/webpack/loaders/utils";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 
@@ -20,7 +21,7 @@ export default function FormPackageRegistration({variants}: {
     const imageCardRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
     const imageIdentityRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
 
-    const user = JSON.parse(window.localStorage.getItem("token"));
+    const user = JSON.parse(decodeFromBase64(localStorage.getItem("token")));
 
     return (
         <form

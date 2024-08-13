@@ -6,7 +6,7 @@ import { createPackageFacility } from "@/app/lib/database/package-facility";
 import { createPackageHotel } from "@/app/lib/database/package-hotel";
 import {
     createPackageRegistration,
-    getRegistrationById,
+    getRegistrationById, getRegistrationPagesByAccountId,
     updateRegistrationStatus
 } from "@/app/lib/database/package-registration";
 import { createPackageTransportation } from "@/app/lib/database/package-transportation";

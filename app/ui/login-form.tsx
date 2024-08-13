@@ -2,8 +2,9 @@
 
 import { authenticate } from "@/app/lib/actions";
 import { Button } from "@/app/ui/button";
+import { revalidatePath } from "next/cache";
 import { encodeToBase64 } from "next/dist/build/webpack/loaders/utils";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType, useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginForm() {
@@ -13,6 +14,8 @@ export default function LoginForm() {
         email: "",
         password: ""
     });
+
+    const router = useRouter();
 
     return (
         <form
@@ -24,8 +27,9 @@ export default function LoginForm() {
                 );
 
                 if (account) {
-                    window.localStorage.setItem("token", encodeToBase64(JSON.stringify(account)));
-                    redirect("/");
+                    localStorage.setItem("token", encodeToBase64(JSON.stringify(account)));
+                    router.push("/");
+                    router.refresh()
                 }
 
             }}

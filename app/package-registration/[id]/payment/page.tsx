@@ -13,9 +13,9 @@ export default async function Page({params}: {params: {id: string}}) {
             <div className="flex-none mx-12">
                 <Breadcrumbs
                     breadcrumbs={[
-                        { label: 'Pendaftaran', href: '/package-registration' },
-                        { label: 'Detail Pendaftaran', href: '/package-registration' },
-                        { label: 'Pembayaran', href: '/package-registration', active: true },
+                        { label: 'Riwayat Pendaftaran', href: '/package-registration' },
+                        { label: 'Detail Riwayat Pendaftaran', href: `/package-registration/${id}` },
+                        { label: 'Pembayaran', href: `/package-registration/${id}/payment`, active: true },
                     ]}
                 />
             </div>

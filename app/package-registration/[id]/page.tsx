@@ -18,10 +18,10 @@ export default async function Page({params}: { params: { id: string } }) {
                 <div className="flex justify-between items-center">
                     <Breadcrumbs
                         breadcrumbs={[
-                            {label: 'Pendaftaran', href: '/package-registration'},
+                            {label: 'Riwayat Pendaftaran', href: '/package-registration'},
                             {
-                                label: 'Detail Pendaftaran',
-                                href: '/package-registration',
+                                label: 'Detail Riwayat Pendaftaran',
+                                href: `/package-registration/${id}`,
                                 active: true,
                             },
                         ]}

@@ -9,20 +9,20 @@ import PaymentActionContent from "@/app/ui/user/payment-action-content";
 import React from "react";
 
 export default async function Page({params}: {params: {id: string}}) {
-    const registrationId: number = Number(params.id);
+    const id: number = Number(params.id);
     const paymentMethods: PaymentMethod[] = await getPaymentMethods();
-    const payments: Payment[] = await getPaymentByPackageRegistrationId(registrationId);
-    const registration: PackageRegistrationDetail = await getRegistrationById(registrationId);
+    const payments: Payment[] = await getPaymentByPackageRegistrationId(id);
+    const registration: PackageRegistrationDetail = await getRegistrationById(id);
 
     return (
         <main className="flex flex-col">
             <div className="flex-none mx-12">
                 <Breadcrumbs
                     breadcrumbs={[
-                        {label: 'Pendaftaran', href: '/package-registration'},
-                        {label: 'Detail Pendaftaran', href: '/package-registration'},
-                        {label: 'Pembayaran', href: '/package-registration'},
-                        {label: 'Tambah Pembayaran', href: '/package-registration', active: true},
+                        { label: 'Riwayat Pendaftaran', href: '/package-registration' },
+                        { label: 'Detail Riwayat Pendaftaran', href: `/package-registration/${id}` },
+                        { label: 'Pembayaran', href: `/package-registration/${id}/payment`},
+                        { label: 'Buat Pembayaran', href: `/package-registration/${id}/payment/create`, active: true },
                     ]}
                 />
             </div>

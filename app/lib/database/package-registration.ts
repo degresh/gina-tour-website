@@ -91,16 +91,21 @@ export async function getRegistrationPages(keyword: string): Promise<number> {
     }
 }
 
-export async function getRegistrationPagesByAccountId(accountId: number, keyword: string): Promise<number> {
+export function getRegistrationPagesByAccountId(accountId: number, keyword: string): number {
     try {
-        const query = await sql`
+        const query = sql`
             SELECT COUNT(*) FROM pendaftaran 
             WHERE nama ILIKE ${`%${keyword}%`} AND akun_id = ${accountId}
         `;
 
-        return Math.ceil(Number(query.rows[0].count) / ITEMS_PER_PAGE)
+        query.then((result) => {
+            return Math.ceil(Number(result.rows[0].count) / ITEMS_PER_PAGE)
+        }).catch(() => {
+            return 0;
+        })
     } catch (error) {
         console.error("[REGISTRATION] Database Error", error);
+        return 0;
     }
 }
 
@@ -129,9 +134,9 @@ export async function getPagedRegistrations(keyword: string, page: number) {
     }
 }
 
-export async function getPagedRegistrationsByAccountId(accountId: number, keyword: string, page: number) {
+export function getPagedRegistrationsByAccountId(accountId: number, keyword: string, page: number): PackageRegistration[] | null {
     try {
-        const query = await sql`
+        const query = sql`
             SELECT
                 pendaftaran.id,
                 pendaftaran.nama,
@@ -148,9 +153,15 @@ export async function getPagedRegistrationsByAccountId(accountId: number, keywor
             LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset(page)}
         `;
 
-        return query.rows.map(convertRowToPackageRegistration);
+        query.then((result) => {
+            return result.rows.map(convertRowToPackageRegistration);
+        }).catch(() => {
+            return null;
+        })
+
     } catch (error) {
         console.error("[TRANSPORTATION] Database Error", error);
+        return null;
     }
 }
 

@@ -1,6 +1,10 @@
-import { Account } from "@/app/lib/definitions";
+"use client";
+
+import { useToken } from "@/app/lib/helper";
 import { decodeFromBase64 } from "next/dist/build/webpack/loaders/utils";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const menus = [
     {
@@ -15,7 +19,7 @@ const menus = [
     },
     {
         href: "/package-registration",
-        name: "Pendaftaran",
+        name: "Riwayat Pendaftaran",
         role: "pengguna"
     },
     {
@@ -26,10 +30,18 @@ const menus = [
 ]
 
 export default function NavbarAction() {
-    const localStorage = window.localStorage.getItem("token");
+    const [token, setToken] = useState(null);
+    useEffect(() => {
+        const data = localStorage.getItem("token");
+        if (data) {
+            setToken(data);
+        }
+    }, []);
 
-    if (localStorage) {
-        const userData = JSON.parse(decodeFromBase64(localStorage));
+    const router = useRouter();
+
+    if (token) {
+        const userData = JSON.parse(decodeFromBase64(token));
         const availableMenus = menus.filter(menu => menu.role === userData["role"]);
 
         return (
@@ -48,6 +60,19 @@ export default function NavbarAction() {
                         </button>
                     </Link>
                 ))}
+                <div>
+                    <button
+                        type="button"
+                        onClick={async () => {
+                            window.localStorage.removeItem("token");
+                            router.push("/");
+                            router.refresh()
+                        }}
+                        className="me-3 rounded px-2 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 dark:text-secondary-600 dark:hover:text-secondary-500 dark:focus:text-secondary-500 dark:active:text-secondary-500"
+                    >
+                        Logout
+                    </button>
+                </div>
             </div>
         )
     }
