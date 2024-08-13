@@ -1,6 +1,6 @@
 'use server';
 
-import { createAccount } from "@/app/lib/database/account";
+import { createAccount, getAccountByEmail } from "@/app/lib/database/account";
 import { createPackage } from "@/app/lib/database/package";
 import { createPackageFacility } from "@/app/lib/database/package-facility";
 import { createPackageHotel } from "@/app/lib/database/package-hotel";
@@ -114,22 +114,16 @@ export async function createRegistration(
 }
 
 export async function authenticate(
-    prevState: string | undefined,
-    formData: FormData,
-) {
-    try {
-        await signIn('credentials', formData);
-    } catch (error) {
-        if (error instanceof AuthError) {
-            switch (error.type) {
-                case 'CredentialsSignin':
-                    return 'Invalid credentials.';
-                default:
-                    return 'Something went wrong.';
-            }
-        }
-        throw error;
+    email: string,
+    password: string
+): Promise<Account | null> {
+    const account: Account = await getAccountByEmail(email);
+
+    if (account.password === password) {
+        return account;
     }
+
+    return null;
 }
 
 export async function submitRegistrationStatus(registrationId: number, status: string) {

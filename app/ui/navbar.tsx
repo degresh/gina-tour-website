@@ -3,15 +3,8 @@
 import NavbarAction from "@/app/ui/navbar-action";
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 
-const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggleNavbar = () => {
-        setIsOpen(!isOpen);
-    };
-
+export function Navbar() {
     return (
         <nav className="flex w-full items-center justify-between bg-zinc-50">
             <Link href="/">

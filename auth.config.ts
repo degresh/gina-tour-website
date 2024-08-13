@@ -10,18 +10,11 @@ export const authConfig = {
             const isLoggedIn = !!auth?.user;
             const isOnAdmin = nextUrl.pathname.startsWith("/admin");
 
-            // if (isLoggedIn && isOnAdmin) {
-            //     getAccountByEmail(auth.user.email)
-            //     .then((account) => {
-            //         if (account.role == "admin") {
-            //             return Response.redirect(new URL("/admin", nextUrl));
-            //         } else {
-            //         }
-            //     });
+            // if (isOnAdmin) {
+            //     return isLoggedIn;
             // } else if (isLoggedIn) {
-            //     return Response.redirect(new URL(nextUrl.pathname, nextUrl));
+            //     // return Response.redirect(new URL("/admin", nextUrl));
             // }
-
 
             return true;
         }
