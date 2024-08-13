@@ -17,7 +17,7 @@ export async function createPaymentMethod(request: PaymentMethodCreateRequest): 
     }
 }
 
-export async function getPaymentMethods(keyword: string, page: number): Promise<PaymentMethod[]> {
+export async function getPagedPaymentMethods(keyword: string, page: number): Promise<PaymentMethod[]> {
     const offset = (page - 1) * ITEMS_PER_PAGE;
 
     try {
@@ -25,6 +25,23 @@ export async function getPaymentMethods(keyword: string, page: number): Promise<
             SELECT * FROM payment_method
             WHERE bank_name ILIKE ${`%${keyword}%`}
             LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+        `;
+
+        if (query.rowCount > 0) {
+            return query.rows.map(convertRowToPaymentMethod);
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error("[PAYMENT METHOD] Database Error", error);
+        return null;
+    }
+}
+
+export async function getPaymentMethods(): Promise<PaymentMethod[]> {
+    try {
+        const query = await sql`
+            SELECT * FROM payment_method
         `;
 
         if (query.rowCount > 0) {

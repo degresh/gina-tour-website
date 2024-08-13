@@ -19,8 +19,11 @@ export default async function Page({params}: {params: {id: string}}) {
                     ]}
                 />
             </div>
-            <div className="grow content-center h-dvh">
-                <PaymentContent payments={payments} />
+            <div className="grow h-dvh mx-12">
+                <PaymentContent
+                    registrationId={id}
+                    payments={payments}
+                />
             </div>
         </main>
     )

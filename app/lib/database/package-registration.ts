@@ -57,7 +57,7 @@ export async function createPackageRegistration(request: PackageRegistrationCrea
                 ${request.job}, 
                 ${request.education},
                 ${Date.now()},
-                'Pending',
+                'pending',
                 ${request.alreadyGoingUmroh},
                 ${request.smoking},
                 ${request.hasDisease},

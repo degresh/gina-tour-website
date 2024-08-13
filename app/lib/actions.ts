@@ -142,3 +142,10 @@ export async function submitDeletePaymentMethodById(id: number) {
     await deletePaymentMethodById(id);
     revalidatePath("/admin/payment-method");
 }
+
+export async function submitCreatePaymentData(data: PaymentCreateRequest) {
+    await createPayment(data);
+
+    revalidatePath(`/package-registration/${data.registrationId}/payment`);
+    redirect(`/package-registration/${data.registrationId}/payment`);
+}
