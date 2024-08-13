@@ -1,5 +1,5 @@
 import { getRegistrationById } from "@/app/lib/database/package-registration";
-import FormPackageRegistrationPreview from "@/app/ui/admin/form/form-package-registration-preview";
+import FormPackageRegistrationPreview from "@/app/ui/user/form-package-registration-preview";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
 import Link from "next/link";
 import React from "react";

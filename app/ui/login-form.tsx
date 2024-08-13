@@ -28,7 +28,7 @@ export default function LoginForm() {
 
                 if (account) {
                     localStorage.setItem("token", encodeToBase64(JSON.stringify(account)));
-                    router.push("/");
+                    router.replace("/");
                     router.refresh()
                 }
 
