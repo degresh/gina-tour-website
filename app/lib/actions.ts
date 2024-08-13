@@ -21,9 +21,7 @@ import { Payment } from "@/app/lib/entity/payment";
 import { PaymentCreateRequest } from "@/app/lib/entity/payment-create-request";
 import { PaymentMethodCreateRequest } from "@/app/lib/entity/payment-method-create-request";
 import { RefundCreateRequest } from "@/app/lib/entity/refund-create-request";
-import { signIn } from "@/auth";
 import { sql } from "@vercel/postgres";
-import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -89,27 +87,9 @@ export async function createPackageWrap(
 }
 
 export async function createRegistration(
-    request: PackageRegistrationCreateRequest,
-    variants: PackageVariant[],
-    selectedVariantId: number
+    request: PackageRegistrationCreateRequest
 ) {
-
-    console.log(request);
-
-    const registrationId = await createPackageRegistration(request);
-    const selectedVariant = variants.find((variant) => variant.id == selectedVariantId);
-
-    const paymentRequest: PaymentCreateRequest = {
-        registrationId: registrationId,
-        amount: selectedVariant.price,
-        status: 'UNPAID',
-        rejectReason: '',
-        type: 'dp',
-        url: ''
-    };
-
-    await createPayment(paymentRequest);
-
+    await createPackageRegistration(request);
     redirect("/package-registration");
 }
 

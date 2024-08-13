@@ -86,7 +86,7 @@ export default function FormPackageRegistration({variants}: {
                     identityCardImageUrl: identityBlob.url,
                 };
 
-                await createRegistration(request, variants, selectedVariantId);
+                await createRegistration(request);
             }}
         >
             <div className="flex flex-col content-center bg-white mt-6 mx-8 rounded-lg p-4 gap-4">
