@@ -491,7 +491,7 @@ export default function FormPackageRegistrationPreview({registrationDetail}: {
                     </div>
                 </div>
 
-                {registrationDetail.registrationStatus === "Pending" ? (
+                {registrationDetail.registrationStatus === "pending" ? (
                     <div>
                         <div className="my-8">
                             <hr/>

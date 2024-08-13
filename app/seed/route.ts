@@ -82,7 +82,7 @@ async function createTablePendaftaran() {
             pekerjaan VARCHAR(56) NOT NULL,
             pendidikan VARCHAR(24) NOT NULL,
             tanggal_pendaftaran BIGINT NOT NULL,
-            status_pendaftaran VARCHAR(16) NOT NULL,
+            status_pendaftaran VARCHAR(32) NOT NULL,
             sudah_pergi_umrah VARCHAR(8) NOT NULL,
             merokok VARCHAR(8) NOT NULL,
             memiliki_penyakit VARCHAR(8) NOT NULL,

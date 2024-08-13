@@ -6,22 +6,22 @@ export const authConfig = {
         signIn: '/login'
     },
     callbacks: {
-        authorized({ auth, request: { nextUrl }}) {
+        authorized({auth, request: {nextUrl}}) {
             const isLoggedIn = !!auth?.user;
-            const isOnDashboard = nextUrl.pathname.startsWith('/admin');
+            const isOnAdmin = nextUrl.pathname.startsWith("/admin");
 
-            if (isOnDashboard) {
-                return isLoggedIn;
-            } else if (isLoggedIn) {
-                getAccountByEmail(auth.user.email)
-                    .then((account) => {
-                        if (account.role == "pengguna") {
-                            return Response.redirect(new URL("/", nextUrl));
-                        } else {
-                            return Response.redirect(new URL("/admin", nextUrl));
-                        }
-                    });
-            }
+            // if (isLoggedIn && isOnAdmin) {
+            //     getAccountByEmail(auth.user.email)
+            //     .then((account) => {
+            //         if (account.role == "admin") {
+            //             return Response.redirect(new URL("/admin", nextUrl));
+            //         } else {
+            //         }
+            //     });
+            // } else if (isLoggedIn) {
+            //     return Response.redirect(new URL(nextUrl.pathname, nextUrl));
+            // }
+
 
             return true;
         }

@@ -12,7 +12,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 export default function PaymentActionContent({paymentMethods, payments, registrationDetail}: {
     paymentMethods: PaymentMethod[];
-    payments: Payment[];
+    payments?: Payment[];
     registrationDetail: PackageRegistrationDetail
 }) {
     const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(paymentMethods[0]);
@@ -21,7 +21,7 @@ export default function PaymentActionContent({paymentMethods, payments, registra
 
     const paymentImageRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
 
-    const shouldSettlement = payments.some(payment => payment.type === "dp");
+    const shouldSettlement = payments?.some(payment => payment.type === "dp");
 
     useEffect(() => {
         if (shouldSettlement) {
